@@ -1,0 +1,27 @@
+{
+	"compilerOptions": {
+		"outDir": "dist",
+		"module": "commonjs",
+		"target": "es2015",
+		"noImplicitAny": true,
+		"noUnusedParameters": true,
+		"noUnusedLocals": true,
+		"preserveConstEnums": true,
+		"removeComments": true,
+		"resolveJsonModule": true,
+		"sourceMap": true,
+		"strictNullChecks": true,
+		"skipLibCheck": true,
+		"lib": [
+			"es6",
+			"dom"
+		]
+	},
+	"include": [
+		"src/**/*.ts",
+		"typings/**/*.d.ts"
+	],
+	"exclude": [
+		"node_modules"
+	]
+}
