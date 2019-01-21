@@ -1,41 +1,20 @@
 import * as prometheus from 'prom-client';
 import * as express from 'express';
 
-const defaultPercentiles = [0.5, 0.9, 0.99, 0.999, 1.0];
-const defaultBuckets = [4, 16, 50, 100, 250, 500, 1000, 1500, 3000, 8000, 
-	10000, 20000, 30000];
+import { 
+	LabelSet,
+	DescriptionMap,
+	CustomParams,
+	MetricConstructor,
+	ConstructorMap,
+	MetricsMap,
+	KindMap
+} from './types';
 
-interface LabelSet { 
-	[name: string]: string
-}
-
-interface DescriptionMap {
-	[name: string]: string
-}
-
-interface CustomParams {
-	percentiles? : number[]
-	buckets? : number[]
-}
-
-// weird class to allow polymorphism over constructors yielding type Metric
-class MetricConstructor {        
-    constructor (public construct: new (...args: any[]) => prometheus.Metric) {
-    }
-    create (...args: any[]) : prometheus.Metric { return new this.construct(...args); }
-}
-
-interface ConstructorMap {
-	[kind: string]: MetricConstructor
-}
-
-interface MetricsMap {
-	[kind: string]: { [name: string]: prometheus.Metric }
-}
-
-interface KindMap {
-	[name: string]: string
-}
+import {
+	defaultPercentiles,
+	defaultBuckets
+} from './constants';
 
 class MetricsGatherer {
 
@@ -50,10 +29,12 @@ class MetricsGatherer {
 		private kinds: KindMap = {},
 	) {}
 
+	// fetch the description for a metric
 	describe(name : string, text : string) {
 		this.descriptions[name] = text;
 	}
 
+	// create a gauge metric
 	gauge(name : string, 
 		val : number,
 		labels : LabelSet = {}) {
@@ -61,6 +42,7 @@ class MetricsGatherer {
 		(<prometheus.Gauge>this.metrics.gauge[name]).inc(labels, val);
 	}
 
+	// create a counter metric
 	counter(name : string, 
 		val : number = 1, 
 		labels : LabelSet = {}) {
@@ -68,6 +50,7 @@ class MetricsGatherer {
 		(<prometheus.Counter>this.metrics.counter[name]).inc(labels, val);
 	}
 
+	// create a percentile metric
 	percentile(name : string, 
 		val : number, 
 		labels : LabelSet = {}) {
@@ -75,6 +58,7 @@ class MetricsGatherer {
 		(<prometheus.Summary>this.metrics.percentile[name]).observe(labels, val);
 	}
 
+	// createa a custom percentile metric
 	customPercentile(name : string, 
 		val : number, 
 		percentiles : number[],
@@ -83,6 +67,7 @@ class MetricsGatherer {
 		(<prometheus.Summary>this.metrics.percentile[name]).observe(labels, val);
 	}
 
+	// create a latency histogram metric
 	latencyHistogram(name : string, 
 		val : number, 
 		labels : LabelSet = {}) {
@@ -90,6 +75,7 @@ class MetricsGatherer {
 		(<prometheus.Histogram>this.metrics.histogram[name]).observe(labels, val);
 	}
 
+	// create a custom histogram metric
 	customHistogram(name : string, 
 		val : number, 
 		buckets : number[],
@@ -98,6 +84,8 @@ class MetricsGatherer {
 		(<prometheus.Histogram>this.metrics.histogram[name]).observe(labels, val);
 	}
 
+	// used declaratively to ensure a given metric of a certain kind exists, 
+	// given some custom params to instantiate it if absent
 	ensureExists(name : string, kind : string, custom? : CustomParams) {
 		if (!(name in this.descriptions)) {
 			throw new Error(`tried to observe a metric ("${name}") with no ` +
@@ -119,19 +107,26 @@ class MetricsGatherer {
 		}
 	}
 
+	// reset a given metric by name
 	reset(name: string) {
 		this.metrics[this.kinds[name]][name].reset();
 	}
 
-	requestHandler(authTest : (req: express.Request) => boolean) : express.Handler {
+	// create an express request handler given an auth test function
+	requestHandler(authTest? : (req: express.Request) => boolean) : express.Handler {
 		return (req : express.Request, res : express.Response) => {
-			if (!authTest(req)) {
+			if (authTest && !authTest(req)) {
 				res.status(403);
 			} else {
 				res.writeHead(200, { 'Content-Type': 'text/plain' });
 				res.end(prometheus.register.metrics());
 			}
 		};
+	}
+
+	// get the prometheus output
+	output() : string {
+		return prometheus.register.metrics();
 	}
 
 }
