@@ -26,7 +26,9 @@ app.use('/metrics', metrics.requestHandler());
 
 See the [prometheus documentation](https://prometheus.io/docs/concepts/metric_types/)
 
-TODO:
+TODO: explain metric types below (until such time, "percentile" corresponds to
+Prometheus's "summary", and the other types correspond directly to the same names
+for Prometheus equivalent)
 
 ### Gauge
 
