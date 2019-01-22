@@ -69,7 +69,7 @@ class MetricsGatherer {
 
 	// used declaratively to ensure a given metric of a certain kind exists, 
 	// given some custom params to instantiate it if absent
-	ensureExists(name : string, kind : string, custom? : CustomParams) {
+	ensureExists(name : string, kind : string, custom : CustomParams = {}) {
 		custom = Object.assign(custom, this.customParams[name]);
 		if (!(name in this.descriptions)) {
 			throw new Error(`tried to observe a metric ("${name}") with no ` +

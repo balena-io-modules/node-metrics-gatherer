@@ -37,7 +37,7 @@ class MetricsGatherer {
         this.ensureExists(name, 'histogram');
         this.metrics.histogram[name].observe(labels, val);
     }
-    ensureExists(name, kind, custom) {
+    ensureExists(name, kind, custom = {}) {
         custom = Object.assign(custom, this.customParams[name]);
         if (!(name in this.descriptions)) {
             throw new Error(`tried to observe a metric ("${name}") with no ` +
