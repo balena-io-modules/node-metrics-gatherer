@@ -1,28 +1,25 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const prometheus = require("prom-client");
-const defaultPercentiles = [0.5, 0.9, 0.99, 0.999, 1.0];
-const defaultBuckets = [4, 16, 50, 100, 250, 500, 1000, 1500, 3000, 8000,
-    10000, 20000, 30000];
-class MetricConstructor {
-    constructor(construct) {
-        this.construct = construct;
-    }
-    create(...args) { return new this.construct(...args); }
-}
+const types_1 = require("./types");
 class MetricsGatherer {
     constructor(metrics = {
         gauge: {},
         counter: {},
         percentile: {},
         histogram: {},
-    }, descriptions = {}, kinds = {}) {
+    }, customParams = {}, descriptions = {}, kinds = {}) {
         this.metrics = metrics;
+        this.customParams = customParams;
         this.descriptions = descriptions;
         this.kinds = kinds;
     }
-    describe(name, text) {
+    describe(name, text, custom = {}) {
+        if (this.descriptions[name]) {
+            throw new Error(`tried to describe metric "${name}" twice`);
+        }
         this.descriptions[name] = text;
+        this.customParams[name] = custom;
     }
     gauge(name, val, labels = {}) {
         this.ensureExists(name, 'gauge');
@@ -33,32 +30,25 @@ class MetricsGatherer {
         this.metrics.counter[name].inc(labels, val);
     }
     percentile(name, val, labels = {}) {
-        this.ensureExists(name, 'percentile', { percentiles: defaultPercentiles });
+        this.ensureExists(name, 'percentile');
         this.metrics.percentile[name].observe(labels, val);
     }
-    customPercentile(name, val, percentiles, labels = {}) {
-        this.ensureExists(name, 'percentile', { percentiles });
-        this.metrics.percentile[name].observe(labels, val);
-    }
-    latencyHistogram(name, val, labels = {}) {
-        this.ensureExists(name, 'histogram', { buckets: defaultBuckets });
-        this.metrics.histogram[name].observe(labels, val);
-    }
-    customHistogram(name, val, buckets, labels = {}) {
-        this.ensureExists(name, 'histogram', { buckets });
+    histogram(name, val, labels = {}) {
+        this.ensureExists(name, 'histogram');
         this.metrics.histogram[name].observe(labels, val);
     }
     ensureExists(name, kind, custom) {
+        custom = Object.assign(custom, this.customParams[name]);
         if (!(name in this.descriptions)) {
             throw new Error(`tried to observe a metric ("${name}") with no ` +
                 `description. Please use metrics.describe()`);
         }
         if (!(name in this.kinds)) {
             const constructors = {
-                'gauge': new MetricConstructor(prometheus.Gauge),
-                'counter': new MetricConstructor(prometheus.Counter),
-                'percentile': new MetricConstructor(prometheus.Summary),
-                'histogram': new MetricConstructor(prometheus.Histogram),
+                'gauge': new types_1.MetricConstructor(prometheus.Gauge),
+                'counter': new types_1.MetricConstructor(prometheus.Counter),
+                'percentile': new types_1.MetricConstructor(prometheus.Summary),
+                'histogram': new types_1.MetricConstructor(prometheus.Histogram),
             };
             this.metrics[kind][name] = constructors[kind].create(Object.assign({ name: name, help: this.descriptions[name] }, custom));
             this.kinds[name] = kind;
@@ -67,16 +57,22 @@ class MetricsGatherer {
     reset(name) {
         this.metrics[this.kinds[name]][name].reset();
     }
-    requestHandler(authTest) {
+    requestHandler(authTest, callback) {
         return (req, res) => {
-            if (!authTest(req)) {
+            if (authTest && !authTest(req)) {
                 res.status(403);
             }
             else {
                 res.writeHead(200, { 'Content-Type': 'text/plain' });
                 res.end(prometheus.register.metrics());
+                if (callback) {
+                    callback();
+                }
             }
         };
+    }
+    output() {
+        return prometheus.register.metrics();
     }
 }
 exports.metrics = new MetricsGatherer();

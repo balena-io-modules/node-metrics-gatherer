@@ -5,16 +5,12 @@ import {
 	LabelSet,
 	DescriptionMap,
 	CustomParams,
+	CustomParamsMap,
 	MetricConstructor,
 	ConstructorMap,
 	MetricsMap,
 	KindMap
 } from './types';
-
-import {
-	defaultPercentiles,
-	defaultBuckets
-} from './constants';
 
 class MetricsGatherer {
 
@@ -25,16 +21,21 @@ class MetricsGatherer {
 			percentile: {},
 			histogram: {},
 		},
+		private customParams: CustomParamsMap = {},
 		private descriptions: DescriptionMap = {},
 		private kinds: KindMap = {},
 	) {}
 
 	// fetch the description for a metric
-	describe(name : string, text : string) {
+	describe(name : string, text : string, custom : CustomParams = {}) {
+		if (this.descriptions[name]) {
+			throw new Error(`tried to describe metric "${name}" twice`);
+		}
 		this.descriptions[name] = text;
+		this.customParams[name] = custom;
 	}
 
-	// create a gauge metric
+	// observe a gauge metric
 	gauge(name : string, 
 		val : number,
 		labels : LabelSet = {}) {
@@ -42,7 +43,7 @@ class MetricsGatherer {
 		(<prometheus.Gauge>this.metrics.gauge[name]).inc(labels, val);
 	}
 
-	// create a counter metric
+	// observe a counter metric
 	counter(name : string, 
 		val : number = 1, 
 		labels : LabelSet = {}) {
@@ -50,43 +51,26 @@ class MetricsGatherer {
 		(<prometheus.Counter>this.metrics.counter[name]).inc(labels, val);
 	}
 
-	// create a percentile metric
+	// observe a percentile metric
 	percentile(name : string, 
 		val : number, 
 		labels : LabelSet = {}) {
-		this.ensureExists(name, 'percentile', { percentiles: defaultPercentiles });
+		this.ensureExists(name, 'percentile');
 		(<prometheus.Summary>this.metrics.percentile[name]).observe(labels, val);
 	}
 
-	// createa a custom percentile metric
-	customPercentile(name : string, 
-		val : number, 
-		percentiles : number[],
-		labels : LabelSet = {}) {
-		this.ensureExists(name, 'percentile', { percentiles });
-		(<prometheus.Summary>this.metrics.percentile[name]).observe(labels, val);
-	}
-
-	// create a latency histogram metric
-	latencyHistogram(name : string, 
+	// observe a histogram metric
+	histogram(name : string, 
 		val : number, 
 		labels : LabelSet = {}) {
-		this.ensureExists(name, 'histogram', { buckets: defaultBuckets });
-		(<prometheus.Histogram>this.metrics.histogram[name]).observe(labels, val);
-	}
-
-	// create a custom histogram metric
-	customHistogram(name : string, 
-		val : number, 
-		buckets : number[],
-		labels : LabelSet = {}) {
-		this.ensureExists(name, 'histogram', { buckets });
+		this.ensureExists(name, 'histogram');
 		(<prometheus.Histogram>this.metrics.histogram[name]).observe(labels, val);
 	}
 
 	// used declaratively to ensure a given metric of a certain kind exists, 
 	// given some custom params to instantiate it if absent
 	ensureExists(name : string, kind : string, custom? : CustomParams) {
+		custom = Object.assign(custom, this.customParams[name]);
 		if (!(name in this.descriptions)) {
 			throw new Error(`tried to observe a metric ("${name}") with no ` +
 				`description. Please use metrics.describe()`);
@@ -113,13 +97,16 @@ class MetricsGatherer {
 	}
 
 	// create an express request handler given an auth test function
-	requestHandler(authTest? : (req: express.Request) => boolean) : express.Handler {
+	requestHandler(authTest? : (req: express.Request) => boolean, callback? : Function) : express.Handler {
 		return (req : express.Request, res : express.Response) => {
 			if (authTest && !authTest(req)) {
 				res.status(403);
 			} else {
 				res.writeHead(200, { 'Content-Type': 'text/plain' });
 				res.end(prometheus.register.metrics());
+				if (callback) {
+					callback();
+				}
 			}
 		};
 	}

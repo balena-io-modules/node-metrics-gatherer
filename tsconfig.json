@@ -1,5 +1,6 @@
 {
 	"compilerOptions": {
+		"declaration": true,
 		"outDir": "out",
 		"module": "commonjs",
 		"target": "es2015",
