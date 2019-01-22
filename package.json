@@ -2,7 +2,7 @@
   "name": "@balena/node-metrics-gatherer",
   "version": "1.0.0",
   "description": "gather / export prometheus metrics easily in nodejs",
-  "main": "dist/index.js",
+  "main": "out/index.js",
   "scripts": {
     "test": "mocha --exit -r ts-node/register test/*.spec.ts",
     "build": "npx tsc"

@@ -13,6 +13,10 @@ export interface CustomParams {
 	buckets? : number[]
 }
 
+export interface CustomParamsMap {
+	[name: string]: CustomParams
+}
+
 // weird class to allow polymorphism over constructors yielding type Metric
 export class MetricConstructor {        
     constructor (public construct: new (...args: any[]) => prometheus.Metric) {
