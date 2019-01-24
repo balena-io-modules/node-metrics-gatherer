@@ -11,6 +11,7 @@ export interface DescriptionMap {
 export interface CustomParams {
 	percentiles? : number[]
 	buckets? : number[]
+	labelNames?: string[]
 }
 
 export interface CustomParamsMap {
