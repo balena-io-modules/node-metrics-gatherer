@@ -55,12 +55,14 @@ class MetricsGatherer {
         }
     }
     reset(name) {
-        this.metrics[this.kinds[name]][name].reset();
+        if (this.kinds[name]) {
+            this.metrics[this.kinds[name]][name].reset();
+        }
     }
     requestHandler(authTest, callback) {
         return (req, res) => {
             if (authTest && !authTest(req)) {
-                res.status(403);
+                res.status(403).send();
             }
             else {
                 res.writeHead(200, { 'Content-Type': 'text/plain' });

@@ -93,14 +93,19 @@ class MetricsGatherer {
 
 	// reset a given metric by name
 	reset(name: string) {
-		this.metrics[this.kinds[name]][name].reset();
+		// will only have an entry in this.kinds if the metric has been observed 
+		// at least once (don't need to "reset" otherwise, and avoids error in
+		// indexing)
+		if (this.kinds[name]) {
+			this.metrics[this.kinds[name]][name].reset();
+		}
 	}
 
 	// create an express request handler given an auth test function
 	requestHandler(authTest? : (req: express.Request) => boolean, callback? : Function) : express.Handler {
 		return (req : express.Request, res : express.Response) => {
 			if (authTest && !authTest(req)) {
-				res.status(403);
+				res.status(403).send();
 			} else {
 				res.writeHead(200, { 'Content-Type': 'text/plain' });
 				res.end(prometheus.register.metrics());
