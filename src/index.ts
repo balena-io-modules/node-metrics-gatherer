@@ -39,7 +39,9 @@ class MetricsGatherer {
 	gauge(name : string, 
 		val : number,
 		labels : LabelSet = {}) {
-		this.ensureExists(name, 'gauge');
+		this.ensureExists(name, 'gauge', {
+			labelNames: Object.keys(labels)
+		});
 		(<prometheus.Gauge>this.metrics.gauge[name]).inc(labels, val);
 	}
 
@@ -47,7 +49,9 @@ class MetricsGatherer {
 	counter(name : string, 
 		val : number = 1, 
 		labels : LabelSet = {}) {
-		this.ensureExists(name, 'counter');
+		this.ensureExists(name, 'counter', {
+			labelNames: Object.keys(labels)
+		});
 		(<prometheus.Counter>this.metrics.counter[name]).inc(labels, val);
 	}
 
@@ -55,7 +59,9 @@ class MetricsGatherer {
 	percentile(name : string, 
 		val : number, 
 		labels : LabelSet = {}) {
-		this.ensureExists(name, 'percentile');
+		this.ensureExists(name, 'percentile', {
+			labelNames: Object.keys(labels)
+		});
 		(<prometheus.Summary>this.metrics.percentile[name]).observe(labels, val);
 	}
 
@@ -63,17 +69,18 @@ class MetricsGatherer {
 	histogram(name : string, 
 		val : number, 
 		labels : LabelSet = {}) {
-		this.ensureExists(name, 'histogram');
+		this.ensureExists(name, 'histogram', {
+			labelNames: Object.keys(labels)
+		});
 		(<prometheus.Histogram>this.metrics.histogram[name]).observe(labels, val);
 	}
 
 	// used declaratively to ensure a given metric of a certain kind exists, 
 	// given some custom params to instantiate it if absent
 	ensureExists(name : string, kind : string, custom : CustomParams = {}) {
-		custom = Object.assign(custom, this.customParams[name]);
+		// create description if it doesn't exist
 		if (!(name in this.descriptions)) {
-			throw new Error(`tried to observe a metric ("${name}") with no ` +
-				`description. Please use metrics.describe()`);
+			this.descriptions[name] = `undescribed ${kind} metric`;
 		}
 		if (!(name in this.kinds)) {
 			const constructors : ConstructorMap = {
@@ -82,12 +89,20 @@ class MetricsGatherer {
 				'percentile': new MetricConstructor(prometheus.Summary),
 				'histogram': new MetricConstructor(prometheus.Histogram),
 			};
+			// mix provided custom params with custom params given by 
+			// `describe()`
+			custom = Object.assign(custom, this.customParams[name]);
 			this.metrics[kind][name] = constructors[kind].create({
 				name: name,
 				help: this.descriptions[name],
 				...custom
 			});
 			this.kinds[name] = kind;
+		} else {
+			if (this.kinds[name] != kind) {
+				throw new Error(`tried to use ${name} twice - first as ` +
+					`${this.kinds[name]}, then as ${kind}`);
+			}
 		}
 	}
 

@@ -6,9 +6,10 @@ import 'mocha';
 import { metrics } from '../src';
 
 describe('Error', () => {
-	it('should fail if no decsription given', () => {
+	it('should fail if same name used for different kinds', () => {
 		expect(() => {
-			metrics.counter('metric_that_does_not_have_description');
+			metrics.counter('a_name', 1);
+			metrics.histogram('a_name', 1);
 		}).to.throw();
 	});
 });
