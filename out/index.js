@@ -22,26 +22,32 @@ class MetricsGatherer {
         this.customParams[name] = custom;
     }
     gauge(name, val, labels = {}) {
-        this.ensureExists(name, 'gauge');
+        this.ensureExists(name, 'gauge', {
+            labelNames: Object.keys(labels)
+        });
         this.metrics.gauge[name].inc(labels, val);
     }
     counter(name, val = 1, labels = {}) {
-        this.ensureExists(name, 'counter');
+        this.ensureExists(name, 'counter', {
+            labelNames: Object.keys(labels)
+        });
         this.metrics.counter[name].inc(labels, val);
     }
     percentile(name, val, labels = {}) {
-        this.ensureExists(name, 'percentile');
+        this.ensureExists(name, 'percentile', {
+            labelNames: Object.keys(labels)
+        });
         this.metrics.percentile[name].observe(labels, val);
     }
     histogram(name, val, labels = {}) {
-        this.ensureExists(name, 'histogram');
+        this.ensureExists(name, 'histogram', {
+            labelNames: Object.keys(labels)
+        });
         this.metrics.histogram[name].observe(labels, val);
     }
     ensureExists(name, kind, custom = {}) {
-        custom = Object.assign(custom, this.customParams[name]);
         if (!(name in this.descriptions)) {
-            throw new Error(`tried to observe a metric ("${name}") with no ` +
-                `description. Please use metrics.describe()`);
+            this.descriptions[name] = `undescribed ${kind} metric`;
         }
         if (!(name in this.kinds)) {
             const constructors = {
@@ -50,6 +56,7 @@ class MetricsGatherer {
                 'percentile': new types_1.MetricConstructor(prometheus.Summary),
                 'histogram': new types_1.MetricConstructor(prometheus.Histogram),
             };
+            custom = Object.assign(custom, this.customParams[name]);
             this.metrics[kind][name] = constructors[kind].create(Object.assign({ name: name, help: this.descriptions[name] }, custom));
             this.kinds[name] = kind;
         }
