@@ -1,50 +1,62 @@
 - commits:
-  - author: dt-rush
-    body: ""
-    footers:
-      change-type: minor
-      signed-off-by: Nick Payne <nickp@balena.io>
-    hash: e031cbe0d0c6c3aa24878eda191f1dbeef484fe0
-    subject: added single-line syntax (no description, or default description)
-  date: "2019-02-12T02:50:07Z"
+    - subject: 'versionbot: Add CHANGELOG.yml (for nested changelogs)'
+      hash: 6723fe3d76c9f1d99bd91bfaf0886f006d5b1570
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Will Boyce <will@balena.io>
+        signed-off-by: Will Boyce <will@balena.io>
+      author: Will Boyce
+  version: 1.1.1
+  date: 2019-03-14T13:25:09.885Z
+- commits:
+    - author: dt-rush
+      body: ''
+      footers:
+        change-type: minor
+        signed-off-by: Nick Payne <nickp@balena.io>
+      hash: e031cbe0d0c6c3aa24878eda191f1dbeef484fe0
+      subject: 'added single-line syntax (no description, or default description)'
+  date: '2019-02-12T02:50:07Z'
   version: 1.1.0
 - commits:
-  - author: dt-rush
-    body: ""
-    footers:
-      change-type: patch
-      signed-off-by: Nick Payne <nickp@balena.io>
-    hash: 9656637b2241d8ea078bdf5bb6d1bf4d25544012
-    subject: fix sending 403 on not-authed
-  date: "2019-02-06T19:26:18Z"
+    - author: dt-rush
+      body: ''
+      footers:
+        change-type: patch
+        signed-off-by: Nick Payne <nickp@balena.io>
+      hash: 9656637b2241d8ea078bdf5bb6d1bf4d25544012
+      subject: fix sending 403 on not-authed
+  date: '2019-02-06T19:26:18Z'
   version: 1.0.6
 - commits:
-  - author: Giovanni Garufi
-    body: ""
-    footers:
-      change-type: patch
-      signed-off-by: Giovanni Garufi <giovanni@balena.io>
-    hash: 451c8e913c2e3903de3a64b3bb128cb8a59c128d
-    subject: Restore changelog and deleted circle.yml
-  date: "2019-01-24T21:10:11Z"
+    - author: Giovanni Garufi
+      body: ''
+      footers:
+        change-type: patch
+        signed-off-by: Giovanni Garufi <giovanni@balena.io>
+      hash: 451c8e913c2e3903de3a64b3bb128cb8a59c128d
+      subject: Restore changelog and deleted circle.yml
+  date: '2019-01-24T21:10:11Z'
   version: 1.0.5
 - commits:
-  - author: dt-rush
-    body: ""
-    footers:
-      change-type: patch
-      signed-off-by: Nick Payne <nickp@balena.io>
-    hash: 64af530877da86db2bc0ff76631fb360fcb62dd9
-    subject: fixed support for labels
-  date: "2019-01-24T02:31:20Z"
+    - author: dt-rush
+      body: ''
+      footers:
+        change-type: patch
+        signed-off-by: Nick Payne <nickp@balena.io>
+      hash: 64af530877da86db2bc0ff76631fb360fcb62dd9
+      subject: fixed support for labels
+  date: '2019-01-24T02:31:20Z'
   version: 1.0.4
 - commits:
-  - author: Giovanni Garufi
-    body: ""
-    footers:
-      change-type: patch
-      signed-off-by: Giovanni Garufi <giovanni@balena.io>
-    hash: 2c761f57bc762eec6d19bb8a81e3282060525949
-    subject: add CHANGELOG.md
-  date: "2019-01-23T18:10:30Z"
+    - author: Giovanni Garufi
+      body: ''
+      footers:
+        change-type: patch
+        signed-off-by: Giovanni Garufi <giovanni@balena.io>
+      hash: 2c761f57bc762eec6d19bb8a81e3282060525949
+      subject: add CHANGELOG.md
+  date: '2019-01-23T18:10:30Z'
   version: 1.0.3
