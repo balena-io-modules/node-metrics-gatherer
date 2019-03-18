@@ -18,7 +18,7 @@ class MetricsGatherer {
 		private metrics: MetricsMap = {
 			gauge: {},
 			counter: {},
-			percentile: {},
+			summary: {},
 			histogram: {},
 		},
 		private customParams: CustomParamsMap = {},
@@ -55,14 +55,14 @@ class MetricsGatherer {
 		(<prometheus.Counter>this.metrics.counter[name]).inc(labels, val);
 	}
 
-	// observe a percentile metric
-	percentile(name : string, 
+	// observe a summary metric
+	summary(name : string, 
 		val : number, 
 		labels : LabelSet = {}) {
-		this.ensureExists(name, 'percentile', {
+		this.ensureExists(name, 'summary', {
 			labelNames: Object.keys(labels)
 		});
-		(<prometheus.Summary>this.metrics.percentile[name]).observe(labels, val);
+		(<prometheus.Summary>this.metrics.summary[name]).observe(labels, val);
 	}
 
 	// observe a histogram metric
@@ -86,7 +86,7 @@ class MetricsGatherer {
 			const constructors : ConstructorMap = {
 				'gauge': new MetricConstructor(prometheus.Gauge),
 				'counter': new MetricConstructor(prometheus.Counter),
-				'percentile': new MetricConstructor(prometheus.Summary),
+				'summary': new MetricConstructor(prometheus.Summary),
 				'histogram': new MetricConstructor(prometheus.Histogram),
 			};
 			// mix provided custom params with custom params given by 

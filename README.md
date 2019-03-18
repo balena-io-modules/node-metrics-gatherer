@@ -26,27 +26,29 @@ app.use('/metrics', metrics.requestHandler());
 
 See the [prometheus documentation](https://prometheus.io/docs/concepts/metric_types/)
 
-TODO: explain metric types below (until such time, "percentile" corresponds to
-Prometheus's "summary", and the other types correspond directly to the same names
-for Prometheus equivalent)
+The metric types available as method calls (eg., `metrics.summary`) correspond 
+to the Prometheus metric types (eg., Prometheus's "Summary")
+
 
 ## Labels
 
 Labels can be used to add some more granularity to a metric:
 
 ```
-metrics.counter('deployments', 1, { method: 'git-push' });
-metrics.counter('deployments', 1, { method: 'balena-cli-push' });
+metrics.counter('application_deployments_total', 1, { app: userRequest.appId, method: 'git-push' });
+metrics.counter('application_deployments_total', 1, { app: userRequest.appId, method: 'balena-cli-push' });
 ```
 
 You must use the full set of labels you intend to attach with each call; 
-for example, you can't have one line add the label `method: 'git-push'` and another
-line add the label `result: 'success'`. Labels should be used for things which
+for example, you can't have one line add the labels `{ method: 'git-push' }` and another
+line add the label `{ result: 'success' }`. Labels should be used for things which
 apply to the metric every time it's invoked (clever use of values like 'unknown'
 or 'default' can handle cases where you might think you shouldn't add the label).
 
-**NOTE**: Use labels sparingly - there will be one time-series exported 
-for every pair of label names / values which you create
+**NOTE**: Use labels sparingly - there will be one time-series created
+for every pair of label names / values which you create. It would be bad to create
+a label to track source IP, for example, unless you were really sure that the tsdb could
+handle it.
 
 ## Descriptions
 
@@ -54,38 +56,81 @@ Metrics can be given a help text using syntax like the following:
 
 ```
 metrics.describe(
-    'api_latency_percentile_all',
-    'percentiles of total time taken to service requests to the api including queue wait (all queues and all userAgents together)',
+    'api_request_duration_milliseconds',
+    'histogram of total time taken to service requests to the api including queue wait (all queues and all userAgents together)',
 );
 ```
 
-You can also use `.describe()` for the much-more important task of declaring 
-buckets for histogram-type metrics or percentiles for percentile-type metrics
-which differ from the defaults:
+This is where labels would be specified as well:
 
 ```
 metrics.describe(
-    'api_latency_histogram',
+    'api_request_duration_milliseconds',
+    'histogram of total time taken to service requests to the api including queue wait (all queues and all userAgents together)',
+    {
+        labelNames: ['requestType']
+    },
+);
+```
+
+You can also use `.describe()` to declare buckets for histogram-type metrics or 
+percentiles for summary-type metrics, if you'd like them to differ from the defaults:
+
+
+**histogram buckets**
+```
+metrics.describe(
+    'api_request_duration_milliseconds',
     'histogram of total time taken to service requests to the api including queue wait',
     {
-        buckets: metricsConfig.serviceTimeBuckets,
+        buckets: [4, 10, 100, 500, 1000, 5000, 15000, 30000],
         labelNames: ['queue', 'userAgent'],
     },
 );
 ```
 
+**summary percentiles**
+```
+metrics.describe(
+    'api_request_duration_milliseconds',
+    'summary of total time taken to service requests to the api including queue wait',
+    {
+        percentiles: [0.9, 0.99, 0.999, 0.9999, 0.99999],
+        labelNames: ['queue', 'userAgent'],
+    },
+);
+```
+ 
+
+
 ### Gauge
 
-TODO
+Used to record a value which can vary over time, like temperature.
+
+```
+metrics.gauge('greenhouse_temperature', temp [, labelObject ]);
+```
 
 #### Counter
 
-TODO
+Used to record increases to a monotonic counter, like requests served.
 
-#### Percentile
+```
+metrics.counter('requests_served_total', 1 [, labelObject ]);
+```
 
-TODO
+#### Summary
+
+Used to calculate (pre-defined) quantiles on a stream of data.
+
+```
+metrics.summary('db_query_duration_milliseconds', queryTime, [, labelObject ]);
+```
 
 #### Histogram
 
-TODO
+Used to calculate a histogram on a stream of data.
+
+```
+metrics.histogram('db_query_duration_milliseconds', queryTime, [, labelObject ]);
+```

@@ -6,7 +6,7 @@ class MetricsGatherer {
     constructor(metrics = {
         gauge: {},
         counter: {},
-        percentile: {},
+        summary: {},
         histogram: {},
     }, customParams = {}, descriptions = {}, kinds = {}) {
         this.metrics = metrics;
@@ -33,11 +33,11 @@ class MetricsGatherer {
         });
         this.metrics.counter[name].inc(labels, val);
     }
-    percentile(name, val, labels = {}) {
-        this.ensureExists(name, 'percentile', {
+    summary(name, val, labels = {}) {
+        this.ensureExists(name, 'summary', {
             labelNames: Object.keys(labels)
         });
-        this.metrics.percentile[name].observe(labels, val);
+        this.metrics.summary[name].observe(labels, val);
     }
     histogram(name, val, labels = {}) {
         this.ensureExists(name, 'histogram', {
@@ -53,12 +53,18 @@ class MetricsGatherer {
             const constructors = {
                 'gauge': new types_1.MetricConstructor(prometheus.Gauge),
                 'counter': new types_1.MetricConstructor(prometheus.Counter),
-                'percentile': new types_1.MetricConstructor(prometheus.Summary),
+                'summary': new types_1.MetricConstructor(prometheus.Summary),
                 'histogram': new types_1.MetricConstructor(prometheus.Histogram),
             };
             custom = Object.assign(custom, this.customParams[name]);
             this.metrics[kind][name] = constructors[kind].create(Object.assign({ name: name, help: this.descriptions[name] }, custom));
             this.kinds[name] = kind;
+        }
+        else {
+            if (this.kinds[name] != kind) {
+                throw new Error(`tried to use ${name} twice - first as ` +
+                    `${this.kinds[name]}, then as ${kind}`);
+            }
         }
     }
     reset(name) {
