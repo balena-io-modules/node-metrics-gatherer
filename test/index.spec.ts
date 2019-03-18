@@ -17,14 +17,20 @@ describe('Error', () => {
 describe('Counter', () => {
 
 	it('should create a counter', () => {
-		metrics.describe('existent_counter', 'a counter that should exist');
+		metrics.describe({
+			name: 'existent_counter', 
+			description: 'a counter that should exist'
+		});
 		metrics.counter('existent_counter');
 		let output = prometheus.register.metrics();
 		expect(/TYPE existent_counter counter/.test(output)).to.be.true;
 	});
 
 	it('should reset a counter', () => {
-		metrics.describe('resetting_counter', 'a counter that should be reset');
+		metrics.describe({
+			name: 'resetting_counter', 
+			description: 'a counter that should be reset'
+		});
 		metrics.counter('resetting_counter');
 		metrics.reset('resetting_counter');
 		let output = prometheus.register.metrics();
@@ -32,14 +38,20 @@ describe('Counter', () => {
 	});
 
 	it('should increment by 1 if not specified', () => {
-		metrics.describe('simple_counter', 'a simple counter');
+		metrics.describe({
+			name: 'simple_counter', 
+			description: 'a simple counter'
+		});
 		metrics.counter('simple_counter');
 		let output = prometheus.register.metrics();
 		expect(/simple_counter 1/.test(output)).to.be.true;
 	});
 
 	it('should increment by a variable amount', () => {
-		metrics.describe('variable_counter', 'a counter that should increment by variable amounts');
+		metrics.describe({
+			name: 'variable_counter', 
+			description: 'a counter that should increment by variable amounts'
+		});
 		metrics.counter('variable_counter', 1337);
 		let output = prometheus.register.metrics();
 		expect(/variable_counter 1337/.test(output)).to.be.true;

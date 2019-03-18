@@ -12,6 +12,12 @@ import {
 	KindMap
 } from './types';
 
+export interface MetricsDescription {
+	name: string
+	description: string
+	params?: CustomParams
+};
+
 class MetricsGatherer {
 
 	constructor(
@@ -27,12 +33,12 @@ class MetricsGatherer {
 	) {}
 
 	// fetch the description for a metric
-	describe(name : string, text : string, custom : CustomParams = {}) {
-		if (this.descriptions[name]) {
-			throw new Error(`tried to describe metric "${name}" twice`);
+	describe(metric : MetricsDescription) {
+		if (this.descriptions[metric.name]) {
+			throw new Error(`tried to describe metric "${metric.name}" twice`);
 		}
-		this.descriptions[name] = text;
-		this.customParams[name] = custom;
+		this.descriptions[metric.name] = metric.description;
+		this.customParams[metric.name] = metric.params || {};
 	}
 
 	// observe a gauge metric

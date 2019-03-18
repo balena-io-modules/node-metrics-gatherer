@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const prometheus = require("prom-client");
 const types_1 = require("./types");
+;
 class MetricsGatherer {
     constructor(metrics = {
         gauge: {},
@@ -14,12 +15,12 @@ class MetricsGatherer {
         this.descriptions = descriptions;
         this.kinds = kinds;
     }
-    describe(name, text, custom = {}) {
-        if (this.descriptions[name]) {
-            throw new Error(`tried to describe metric "${name}" twice`);
+    describe(metric) {
+        if (this.descriptions[metric.name]) {
+            throw new Error(`tried to describe metric "${metric.name}" twice`);
         }
-        this.descriptions[name] = text;
-        this.customParams[name] = custom;
+        this.descriptions[metric.name] = metric.description;
+        this.customParams[metric.name] = metric.params || {};
     }
     gauge(name, val, labels = {}) {
         this.ensureExists(name, 'gauge', {
@@ -59,6 +60,12 @@ class MetricsGatherer {
             custom = Object.assign(custom, this.customParams[name]);
             this.metrics[kind][name] = constructors[kind].create(Object.assign({ name: name, help: this.descriptions[name] }, custom));
             this.kinds[name] = kind;
+        }
+        else {
+            if (this.kinds[name] != kind) {
+                throw new Error(`tried to use ${name} twice - first as ` +
+                    `${this.kinds[name]}, then as ${kind}`);
+            }
         }
     }
     reset(name) {
