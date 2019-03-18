@@ -1,4 +1,18 @@
 - commits:
+    - subject: >-
+        renamed percentile to summary (to match prometheus, why differ from
+        it?), also improved README
+      hash: 293bc4495c9145566c5a4cafd266296c85650611
+      body: ''
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Nick Payne <nickp@balena.io>
+        signed-off-by: Nick Payne <nickp@balena.io>
+      author: dt-rush
+  version: 2.0.0
+  date: 2019-03-18T06:52:33.656Z
+- commits:
     - subject: 'versionbot: Add CHANGELOG.yml (for nested changelogs)'
       hash: 6723fe3d76c9f1d99bd91bfaf0886f006d5b1570
       body: ''
