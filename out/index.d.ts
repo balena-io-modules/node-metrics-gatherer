@@ -11,6 +11,7 @@ declare class MetricsGatherer {
     counter(name: string, val?: number, labels?: LabelSet): void;
     summary(name: string, val: number, labels?: LabelSet): void;
     histogram(name: string, val: number, labels?: LabelSet): void;
+    histogramSummary(name: string, val: number, labels?: LabelSet): void;
     ensureExists(name: string, kind: string, custom?: CustomParams): void;
     reset(name: string): void;
     requestHandler(authTest?: (req: express.Request) => boolean, callback?: Function): express.Handler;
