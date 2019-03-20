@@ -45,6 +45,10 @@ class MetricsGatherer {
         });
         this.metrics.histogram[name].observe(labels, val);
     }
+    histogramSummary(name, val, labels = {}) {
+        this.histogram(`${name}_hist`, val, labels);
+        this.summary(`${name}_summary`, val, labels);
+    }
     ensureExists(name, kind, custom = {}) {
         if (!(name in this.descriptions)) {
             this.descriptions[name] = `undescribed ${kind} metric`;
