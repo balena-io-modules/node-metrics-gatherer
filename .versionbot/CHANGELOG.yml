@@ -1,4 +1,16 @@
 - commits:
+    - subject: build output (really should be automated)
+      hash: 144a9fb07cdb30982b485dc20cb501ebca7fd3a6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Nick Payne <nickp@balena.io>
+        signed-off-by: Nick Payne <nickp@balena.io>
+      author: dt-rush
+  version: 2.1.1
+  date: 2019-03-20T15:54:09.451Z
+- commits:
     - subject: added histogramSummary convenience method
       hash: fd3b4ac3ee4b2f478e66df4aeab7800ab9ccfb11
       body: ''
