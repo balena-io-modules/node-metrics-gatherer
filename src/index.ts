@@ -75,6 +75,14 @@ class MetricsGatherer {
 		(<prometheus.Histogram>this.metrics.histogram[name]).observe(labels, val);
 	}
 
+	// observe both a histogram and a summary, adding suffixes to differentiate
+	histogramSummary(name : string,
+		val : number,
+		labels : LabelSet = {}) {
+		this.histogram(`${name}_hist`, val, labels);		
+		this.summary(`${name}_summary`, val, labels);		
+	}
+
 	// used declaratively to ensure a given metric of a certain kind exists, 
 	// given some custom params to instantiate it if absent
 	ensureExists(name : string, kind : string, custom : CustomParams = {}) {

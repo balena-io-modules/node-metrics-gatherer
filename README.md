@@ -134,3 +134,12 @@ Used to calculate a histogram on a stream of data.
 ```
 metrics.histogram('db_query_duration_milliseconds', queryTime, [, labelObject ]);
 ```
+
+#### HistogramSummary
+
+There's a convenience method to observe both a histogram and a summary, which will
+suffix `_hist` and `_summary` to the metrics.
+
+```
+metrics.histogramSummary('db_query_duration_milliseconds', queryTime, [, labelObject ]);
+```
