@@ -1,4 +1,16 @@
 - commits:
+    - subject: added histogramSummary convenience method
+      hash: fd3b4ac3ee4b2f478e66df4aeab7800ab9ccfb11
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Nick Payne <nickp@balena.io>
+        signed-off-by: Nick Payne <nickp@balena.io>
+      author: dt-rush
+  version: 2.1.0
+  date: 2019-03-20T14:56:54.231Z
+- commits:
     - subject: >-
         renamed percentile to summary (to match prometheus, why differ from
         it?), also improved README
