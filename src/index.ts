@@ -12,6 +12,8 @@ import {
 	KindMap
 } from './types';
 
+type AuthTestFunc = (req: express.Request) => boolean;
+
 class MetricsGatherer {
 
 	constructor(
@@ -79,7 +81,7 @@ class MetricsGatherer {
 	histogramSummary(name : string,
 		val : number,
 		labels : LabelSet = {}) {
-		this.histogram(`${name}_hist`, val, labels);		
+		this.histogram(`${name}_hist`, val, labels);
 		this.summary(`${name}_summary`, val, labels);		
 	}
 
@@ -125,7 +127,7 @@ class MetricsGatherer {
 	}
 
 	// create an express request handler given an auth test function
-	requestHandler(authTest? : (req: express.Request) => boolean, callback? : Function) : express.Handler {
+	requestHandler(authTest? : AuthTestFunc, callback? : Function) : express.Handler {
 		return (req : express.Request, res : express.Response) => {
 			if (authTest && !authTest(req)) {
 				res.status(403).send();
@@ -136,6 +138,27 @@ class MetricsGatherer {
 					callback();
 				}
 			}
+		};
+	}
+
+	aggregateRequestHandler(authTest? : AuthTestFunc, callback? : Function) : express.Handler {
+		const aggregatorRegistry = new prometheus.AggregatorRegistry();
+		return (req, res) => {
+			if (authTest && !authTest(req)) {
+				res.status(403).send();
+			}
+			aggregatorRegistry.clusterMetrics()
+				.then((metrics: string) => {
+					res.set('Content-Type', aggregatorRegistry.contentType);
+					res.send(metrics);
+					if (callback) {
+						callback();
+					}
+				})
+				.catch((err: Error) => {
+					console.error(`error in /cluster_metrics: ${err}`);
+					res.status(500).send();
+				});
 		};
 	}
 
