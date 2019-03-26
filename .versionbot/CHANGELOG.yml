@@ -1,4 +1,18 @@
 - commits:
+    - subject: added aggregate request handler using prom-client's AggregatorRegistry
+      hash: 13c7f6033587f6f380f28bb348df2f46dfbfd9e6
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Connects-to: '#19'
+        connects-to: '#19'
+        Signed-off-by: Nick Payne <nickp@balena.io>
+        signed-off-by: Nick Payne <nickp@balena.io>
+      author: dt-rush
+  version: 2.2.0
+  date: 2019-03-25T23:40:52.552Z
+- commits:
     - subject: build output (really should be automated)
       hash: 144a9fb07cdb30982b485dc20cb501ebca7fd3a6
       body: ''
