@@ -90,6 +90,26 @@ class MetricsGatherer {
             }
         };
     }
+    aggregateRequestHandler(authTest, callback) {
+        const aggregatorRegistry = new prometheus.AggregatorRegistry();
+        return (req, res) => {
+            if (authTest && !authTest(req)) {
+                res.status(403).send();
+            }
+            aggregatorRegistry.clusterMetrics()
+                .then((metrics) => {
+                res.set('Content-Type', aggregatorRegistry.contentType);
+                res.send(metrics);
+                if (callback) {
+                    callback();
+                }
+            })
+                .catch((err) => {
+                console.error(`error in /cluster_metrics: ${err}`);
+                res.status(500).send();
+            });
+        };
+    }
     output() {
         return prometheus.register.metrics();
     }

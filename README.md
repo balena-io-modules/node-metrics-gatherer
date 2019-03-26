@@ -5,8 +5,8 @@ gather and expose prometheus metrics with a simple syntax
 
 ## Usage:
 
-Basic usage involves adding a single import and a single line. Then, somewhere
-else, you can create a request handler to export the metrics.
+### Writing metrics
+Basic usage involves adding a single import and a single line. 
 
 ```
 import { metrics } from '@balena/node-metrics-gatherer';
@@ -15,11 +15,46 @@ import { metrics } from '@balena/node-metrics-gatherer';
 
 // inside some loop which checks sensors...
 metrics.gauge('temperature', 28);
+```
 
-...
+### Exporting metrics
 
+Then, somewhere else, you can create a request handler to export the metrics:
+
+```
 // create an express request handler to respond to prometheus pulls
 app.use('/metrics', metrics.requestHandler());
+```
+
+Optionally, you can provide a function which validates whether the requeest should
+be served or given a 403, by returning a boolean:
+
+```
+app.use('/metrics', metrics.requestHandler((req) => req.get('Authorization') === 'Basic 123456'));
+```
+
+## Node's `cluster` module
+
+If an application forks several child workers and they each listen on `:80/metrics`, 
+they will write their own metrics each time, causing instability and confusion. Thankfully,
+[`prom-client`](https://github.com/siimon/prom-client/) provides a way to handle this, with a registry you create just after you fork. Internally, it handles message-passing between the 
+workers and the main process, where the metrics are aggregated. The `examples/` folder in that repo has (as of this writing) an example.
+
+See below the function included here to wrap that AggregatorRegistry class:
+
+```
+// create an express request handler to respond to prometheus pulls at the level 
+// of the entrypoint script of an app which uses the `cluster` module to fork workers
+
+if (cluster.isMaster) {
+	for (let i = 0; i < 4; i++) {
+		cluster.fork();
+	}
+	const aggregateMetricsServer = express();
+	aggregateMetricsServer.get('/cluster_metrics', metrics.aggregateRequestHandler());
+	aggregateMetricsServer.listen(3001);
+	console.log('Cluster metrics server listening on 3001, metrics exposed on /cluster_metrics');
+}
 ```
 
 ## Metric types
