@@ -1,6 +1,9 @@
 import * as prometheus from 'prom-client';
 import * as express from 'express';
 
+import * as Debug from 'debug';
+const debug = Debug('node-metrics-gatherer');
+
 import { 
 	LabelSet,
 	DescriptionMap,
@@ -127,36 +130,29 @@ class MetricsGatherer {
 	}
 
 	// create an express request handler given an auth test function
-	requestHandler(authTest? : AuthTestFunc, callback? : Function) : express.Handler {
+	requestHandler(authTest? : AuthTestFunc) : express.Handler {
 		return (req : express.Request, res : express.Response) => {
 			if (authTest && !authTest(req)) {
-				res.status(403).send();
-			} else {
-				res.writeHead(200, { 'Content-Type': 'text/plain' });
-				res.end(prometheus.register.metrics());
-				if (callback) {
-					callback();
-				}
-			}
+				return res.status(403).send();
+			} 
+			res.writeHead(200, { 'Content-Type': 'text/plain' });
+			res.end(prometheus.register.metrics());
 		};
 	}
 
-	aggregateRequestHandler(authTest? : AuthTestFunc, callback? : Function) : express.Handler {
+	aggregateRequestHandler(authTest? : AuthTestFunc) : express.Handler {
 		const aggregatorRegistry = new prometheus.AggregatorRegistry();
 		return (req, res) => {
 			if (authTest && !authTest(req)) {
-				res.status(403).send();
+				return res.status(403).send();
 			}
 			aggregatorRegistry.clusterMetrics()
 				.then((metrics: string) => {
 					res.set('Content-Type', aggregatorRegistry.contentType);
 					res.send(metrics);
-					if (callback) {
-						callback();
-					}
 				})
 				.catch((err: Error) => {
-					console.error(`error in /cluster_metrics: ${err}`);
+					debug(`error in /cluster_metrics: ${err}`);
 					res.status(500).send();
 				});
 		};
