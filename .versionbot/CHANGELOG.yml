@@ -1,4 +1,21 @@
 - commits:
+    - subject: >-
+        removed package-lock.json, out/ directory, added "prepare" in
+        package.json, some minor bugfixes in index.ts, labeled dev dependencies
+        in package.json
+      hash: 58d04091af295d2ed5058f6ab7ad5fee05b15ea5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Connects-to: '#21'
+        connects-to: '#21'
+        Signed-off-by: Nick Payne <nickp@balena.io>
+        signed-off-by: Nick Payne <nickp@balena.io>
+      author: dt-rush
+  version: 2.2.1
+  date: 2019-03-27T18:35:30.320Z
+- commits:
     - subject: added aggregate request handler using prom-client's AggregatorRegistry
       hash: 13c7f6033587f6f380f28bb348df2f46dfbfd9e6
       body: ''
