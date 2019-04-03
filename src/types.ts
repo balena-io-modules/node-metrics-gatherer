@@ -12,10 +12,20 @@ export interface ExistMap {
 	[name: string]: boolean
 }
 
+enum AggregatorStrategy {
+	SUM = 'sum',
+	FIRST = 'first',
+	MIN = 'min',
+	MAX = 'max',
+	AVERAGE = 'average',
+	OMIT = 'omit',
+}
+
 export interface CustomParams {
 	percentiles? : number[]
 	buckets? : number[]
 	labelNames?: string[]
+	aggregator?: AggregatorStrategy
 }
 
 export interface CustomParamsMap {
@@ -40,3 +50,4 @@ export interface MetricsMap {
 export interface KindMap {
 	[name: string]: string
 }
+
