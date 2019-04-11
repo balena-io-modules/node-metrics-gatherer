@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'fix gauge metrics, add clear() method, add inc(), dec() methods'
+      hash: 805a0a3ea55f7f242981fa218c420daad441e0c8
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Connects-to: '#27'
+        connects-to: '#27'
+        Signed-off-by: Nick Payne <nickp@balena.io>
+        signed-off-by: Nick Payne <nickp@balena.io>
+      author: dt-rush
+  version: 2.3.0
+  date: 2019-04-11T16:10:19.244Z
+- commits:
     - subject: >-
         removed package-lock.json, out/ directory, added "prepare" in
         package.json, some minor bugfixes in index.ts, labeled dev dependencies
