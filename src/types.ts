@@ -8,6 +8,10 @@ export interface DescriptionMap {
 	[name: string]: string
 }
 
+export interface ExistMap {
+	[name: string]: boolean
+}
+
 export interface CustomParams {
 	percentiles? : number[]
 	buckets? : number[]

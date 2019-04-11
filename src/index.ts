@@ -1,5 +1,6 @@
 import * as prometheus from 'prom-client';
 import * as express from 'express';
+import { TypedError } from 'typed-error'
 
 import * as Debug from 'debug';
 const debug = Debug('node-metrics-gatherer');
@@ -7,6 +8,7 @@ const debug = Debug('node-metrics-gatherer');
 import { 
 	LabelSet,
 	DescriptionMap,
+	ExistMap,
 	CustomParams,
 	CustomParamsMap,
 	MetricConstructor,
@@ -17,24 +19,37 @@ import {
 
 type AuthTestFunc = (req: express.Request) => boolean;
 
+class MetricsGathererError extends TypedError {}
+    
 class MetricsGatherer {
 
-	constructor(
-		private metrics: MetricsMap = {
+	private metrics: MetricsMap
+	private customParams: CustomParamsMap
+	private descriptions: DescriptionMap
+	private existMap: ExistMap
+	private kinds: KindMap
+
+	constructor() {
+		this.initState();
+	}
+
+	private initState() {
+		this.metrics = {
 			gauge: {},
 			counter: {},
 			summary: {},
 			histogram: {},
-		},
-		private customParams: CustomParamsMap = {},
-		private descriptions: DescriptionMap = {},
-		private kinds: KindMap = {},
-	) {}
+		}
+		this.customParams = {};
+		this.descriptions = {};
+		this.existMap = {};
+		this.kinds = {};
+	}
 
 	// fetch the description for a metric
 	describe(name : string, text : string, custom : CustomParams = {}) {
 		if (this.descriptions[name]) {
-			throw new Error(`tried to describe metric "${name}" twice`);
+			throw new MetricsGathererError(`tried to describe metric "${name}" twice`);
 		}
 		this.descriptions[name] = text;
 		this.customParams[name] = custom;
@@ -47,7 +62,39 @@ class MetricsGatherer {
 		this.ensureExists(name, 'gauge', {
 			labelNames: Object.keys(labels)
 		});
-		(<prometheus.Gauge>this.metrics.gauge[name]).inc(labels, val);
+		(<prometheus.Gauge>this.metrics.gauge[name]).set(labels, val);
+	}
+
+	// increment a counter or gauge
+	inc(name : string, 
+		val : number = 1,
+		labels : LabelSet = {}) {
+		// ensure either that this metric already exists, or if not, create a gauge
+		this.ensureExists(name, 'gauge', {
+			labelNames: Object.keys(labels)
+		});
+		if (!this.checkMetricType(name, ['gauge', 'counter'])) {
+			throw new MetricsGathererError(`Tried to increment non-gauge, non-counter metric ${name}`);
+		}
+		if (this.kinds[name] === 'gauge') {
+			(<prometheus.Gauge>this.metrics.gauge[name]).inc(labels, val);
+		} else {
+			(<prometheus.Counter>this.metrics.counter[name]).inc(labels, val);
+		}
+	}
+
+	// decrement a gauge
+	dec(name : string, 
+		val : number = 1,
+		labels : LabelSet = {}) {
+		// ensure either that this metric already exists, or if not, create a gauge
+		this.ensureExists(name, 'gauge', {
+			labelNames: Object.keys(labels)
+		});
+		if (!this.checkMetricType(name, ['gauge'])) {
+			throw new MetricsGathererError(`Tried to decrement non-gauge metric ${name}`);
+		}
+		(<prometheus.Gauge>this.metrics.gauge[name]).dec(labels, val);
 	}
 
 	// observe a counter metric
@@ -88,14 +135,29 @@ class MetricsGatherer {
 		this.summary(`${name}_summary`, val, labels);		
 	}
 
+	// check that a metric is of the given type(s)
+	checkMetricType(name : string, kinds : string[]) {
+		return kinds.includes(this.kinds[name]);
+	}
+
 	// used declaratively to ensure a given metric of a certain kind exists, 
 	// given some custom params to instantiate it if absent
 	ensureExists(name : string, kind : string, custom : CustomParams = {}) {
-		// create description if it doesn't exist
+		// if exists, bail early
+		if (this.existMap[name]) {
+			return;
+		}
+		// if already exists with another kind, throw error
+		if (this.kinds[name] && this.kinds[name] != kind) {
+			throw new MetricsGathererError(`tried to use ${name} twice - first as ` +
+					`${this.kinds[name]}, then as ${kind}`);
+		}
+		// if not described, describe (poorly)
 		if (!(name in this.descriptions)) {
 			this.descriptions[name] = `undescribed ${kind} metric`;
 		}
-		if (!(name in this.kinds)) {
+		// if doesn't exist, create metric
+		if (!this.metrics[kind][name]) {
 			const constructors : ConstructorMap = {
 				'gauge': new MetricConstructor(prometheus.Gauge),
 				'counter': new MetricConstructor(prometheus.Counter),
@@ -111,11 +173,7 @@ class MetricsGatherer {
 				...custom
 			});
 			this.kinds[name] = kind;
-		} else {
-			if (this.kinds[name] != kind) {
-				throw new Error(`tried to use ${name} twice - first as ` +
-					`${this.kinds[name]}, then as ${kind}`);
-			}
+			this.existMap[name] = true;
 		}
 	}
 
@@ -161,6 +219,12 @@ class MetricsGatherer {
 	// get the prometheus output
 	output() : string {
 		return prometheus.register.metrics();
+	}
+
+	// clear all metrics
+	clear() {
+		prometheus.register.clear();
+		this.initState();		
 	}
 
 }
