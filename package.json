@@ -21,7 +21,8 @@
     "@types/express": "^4.16.0",
     "debug": "^4.1.1",
     "express": "^4.16.4",
-    "prom-client": "^11.2.0"
+    "prom-client": "^11.2.0",
+    "typed-error": "^3.1.0"
   },
   "devDependencies": {
     "@types/chai": "^4.1.7",
