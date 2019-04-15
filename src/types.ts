@@ -1,5 +1,7 @@
 import * as prometheus from 'prom-client';
 
+import { AggregatorStrategy } from './enums';
+
 export interface LabelSet { 
 	[name: string]: string
 }
@@ -10,15 +12,6 @@ export interface DescriptionMap {
 
 export interface ExistMap {
 	[name: string]: boolean
-}
-
-enum AggregatorStrategy {
-	SUM = 'sum',
-	FIRST = 'first',
-	MIN = 'min',
-	MAX = 'max',
-	AVERAGE = 'average',
-	OMIT = 'omit',
 }
 
 export interface CustomParams {
