@@ -57,6 +57,17 @@ if (cluster.isMaster) {
 }
 ```
 
+### A warning about `metrics.describe()` and Node's `cluster` module
+
+When you make a call to `metrics.describe()`, a global registry object is updated with the 
+metric's description. If you call `metrics.describe()` in the master before forking, the
+registries inside the workers will not have the metric definition, and because you can write
+to a metric without first describing it, this means it will simply have all defaults, and not
+your custom description, labels, buckets, percentiles, etc...
+
+To avoid this, metrics should be described *inside the code path that the workers will follow*,
+so that the global registry objects in the workers will have the metric descriptions.
+
 ## Metric types
 
 See the [prometheus documentation](https://prometheus.io/docs/concepts/metric_types/)
