@@ -1,4 +1,18 @@
 - commits:
+    - subject: added warning to README about metrics.describe() in cluster master
+      hash: 30bcd5632588f9427d2ba6aaa96279e4b255b96a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Connects-to: '#25'
+        connects-to: '#25'
+        Signed-off-by: Nick Payne <nickp@balena.io>
+        signed-off-by: Nick Payne <nickp@balena.io>
+      author: dt-rush
+  version: 2.3.1
+  date: 2019-04-15T15:25:11.912Z
+- commits:
     - subject: 'fix gauge metrics, add clear() method, add inc(), dec() methods'
       hash: 805a0a3ea55f7f242981fa218c420daad441e0c8
       body: ''
