@@ -1,3 +1,4 @@
+// see: https://github.com/siimon/prom-client#usage-with-nodejss-cluster-module
 export enum AggregatorStrategy {
 	SUM = 'sum',
 	FIRST = 'first',
@@ -6,5 +7,3 @@ export enum AggregatorStrategy {
 	AVERAGE = 'average',
 	OMIT = 'omit',
 }
-
-
