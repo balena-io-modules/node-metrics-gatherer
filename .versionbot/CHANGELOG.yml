@@ -1,4 +1,38 @@
 - commits:
+    - subject: add linting/prettifier/husky
+      hash: 56d844b9addd083124c766e1fe6d6c7d9defeecd
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Nick Payne <nickp@balena.io>
+        signed-off-by: Nick Payne <nickp@balena.io>
+      author: dt-rush
+    - subject: 'refactor import / module structure, add AggregatorStrategy enum'
+      hash: af616e905a1446f2ad7e7db2b2471acb35ab0961
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Nick Payne <nickp@balena.io>
+        signed-off-by: Nick Payne <nickp@balena.io>
+      author: dt-rush
+    - subject: >-
+        support user specification of alternate aggregation strategies for
+        clustered metrics
+      hash: b7e878ec55ce7ccef9689d1d3f47ee4ff89be85a
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Connects-to: '#23'
+        connects-to: '#23'
+        Signed-off-by: Nick Payne <nickp@balena.io>
+        signed-off-by: Nick Payne <nickp@balena.io>
+      author: dt-rush
+  version: 2.4.0
+  date: 2019-05-13T19:10:23.046Z
+- commits:
     - subject: added warning to README about metrics.describe() in cluster master
       hash: 30bcd5632588f9427d2ba6aaa96279e4b255b96a
       body: ''
