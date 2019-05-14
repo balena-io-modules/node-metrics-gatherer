@@ -4,11 +4,12 @@
   "description": "gather / export prometheus metrics easily in nodejs",
   "main": "out/index.js",
   "scripts": {
-    "test": "mocha --exit -r ts-node/register test/*.spec.ts",
+    "test": "npm run lint && npm run prepare && mocha --exit -r ts-node/register test/*.spec.ts",
     "build": "npx tsc",
-    "pretest": "npm run lint && npm run prepare",
+    "prettify": "prettier --config ./node_modules/resin-lint/config/.prettierrc --write \"{src,test}/**/*.ts\"",
+    "lint:typescript": "resin-lint --typescript src/ test/ && tsc --noEmit",
     "prepare": "npm run build",
-    "lint": "resin-lint src"
+    "lint": "npm run lint:typescript"
   },
   "repository": {
     "type": "git",
@@ -28,9 +29,19 @@
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.6",
     "chai": "^4.2.0",
+    "husky": "^2.0.0",
+    "lint-staged": "^8.1.5",
     "mocha": "^5.2.0",
-    "resin-lint": "^3.0.1",
+    "prettier": "^1.17.0",
+    "resin-lint": "^3.0.4",
     "ts-node": "^8.0.3",
+    "tslint-no-unused-expression-chai": "^0.1.4",
     "typescript": "^3.3.4000"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "npm run lint"
+    }
   }
 }
