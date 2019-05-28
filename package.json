@@ -5,7 +5,7 @@
   "main": "out/index.js",
   "scripts": {
     "test": "npm run lint && npm run prepare && mocha --exit -r ts-node/register test/*.spec.ts",
-    "build": "npx tsc",
+    "build": "npx tsc --project ./tsconfig.build.json",
     "prettify": "prettier --config ./node_modules/resin-lint/config/.prettierrc --write \"{src,test}/**/*.ts\"",
     "lint:typescript": "resin-lint --typescript src/ test/ && tsc --noEmit",
     "prepare": "npm run build",
