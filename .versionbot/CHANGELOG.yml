@@ -1,4 +1,14 @@
 - commits:
+    - subject: Fix build output
+      hash: e924f0cfb4e7ef637453375fcd0220f58d6d8dd5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 2.4.1
+  date: 2019-05-28T14:59:17.559Z
+- commits:
     - subject: add linting/prettifier/husky
       hash: 56d844b9addd083124c766e1fe6d6c7d9defeecd
       body: ''
