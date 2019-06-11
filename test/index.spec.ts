@@ -7,12 +7,18 @@ beforeEach(() => {
 	metrics.clear();
 });
 
+const expectToErr = (f: () => void) => {
+	const errsBefore = metrics.internalErrorCount;
+	f();
+	expect(metrics.internalErrorCount - errsBefore).to.equal(1);
+};
+
 describe('Error', () => {
 	it('should fail if same name used for different kinds', () => {
-		expect(() => {
+		expectToErr(() => {
 			metrics.counter('a_name', 1);
 			metrics.histogram('a_name', 1);
-		}).to.throw();
+		});
 	});
 });
 
@@ -40,29 +46,29 @@ describe('Gauge', () => {
 	});
 
 	it('should throw an error on inc() to histogram, summary', () => {
-		expect(() => {
+		expectToErr(() => {
 			metrics.histogram('histogram_metric', 1);
 			metrics.inc('histogram_metric');
-		}).to.throw();
-		expect(() => {
+		});
+		expectToErr(() => {
 			metrics.summary('summary_metric', 1);
 			metrics.inc('summary_metric');
-		}).to.throw();
+		});
 	});
 
-	it('should throw an error on dec() to non-gauge', () => {
-		expect(() => {
+	it('should throw an error on dec() to histogram', () => {
+		expectToErr(() => {
 			metrics.histogram('histogram_metric', 1);
 			metrics.dec('histogram_metric');
-		}).to.throw();
-		expect(() => {
+		});
+		expectToErr(() => {
 			metrics.summary('summary_metric', 1);
 			metrics.dec('summary_metric');
-		}).to.throw();
-		expect(() => {
+		});
+		expectToErr(() => {
 			metrics.counter('counter_metric', 1);
 			metrics.dec('counter_metric');
-		}).to.throw();
+		});
 	});
 });
 
