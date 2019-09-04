@@ -65,18 +65,14 @@ export class MetricsGatherer {
 
 	// observe a gauge metric
 	public gauge(name: string, val: number, labels: LabelSet = {}) {
-		this.ensureExists(name, 'gauge', {
-			labelNames: Object.keys(labels),
-		});
+		this.ensureExists(name, 'gauge', labels);
 		this.metrics.gauge[name].set(labels, val);
 	}
 
 	// increment a counter or gauge
 	public inc(name: string, val: number = 1, labels: LabelSet = {}) {
 		// ensure either that this metric already exists, or if not, create a gauge
-		this.ensureExists(name, 'gauge', {
-			labelNames: Object.keys(labels),
-		});
+		this.ensureExists(name, 'gauge', labels);
 		if (!this.checkMetricType(name, ['gauge', 'counter'])) {
 			throw new MetricsGathererError(
 				`Tried to increment non-gauge, non-counter metric ${name}`,
@@ -92,9 +88,7 @@ export class MetricsGatherer {
 	// decrement a gauge
 	public dec(name: string, val: number = 1, labels: LabelSet = {}) {
 		// ensure either that this metric already exists, or if not, create a gauge
-		this.ensureExists(name, 'gauge', {
-			labelNames: Object.keys(labels),
-		});
+		this.ensureExists(name, 'gauge', labels);
 		if (!this.checkMetricType(name, ['gauge'])) {
 			throw new MetricsGathererError(
 				`Tried to decrement non-gauge metric ${name}`,
@@ -105,25 +99,19 @@ export class MetricsGatherer {
 
 	// observe a counter metric
 	public counter(name: string, val: number = 1, labels: LabelSet = {}) {
-		this.ensureExists(name, 'counter', {
-			labelNames: Object.keys(labels),
-		});
+		this.ensureExists(name, 'counter', labels);
 		this.metrics.counter[name].inc(labels, val);
 	}
 
 	// observe a summary metric
 	public summary(name: string, val: number, labels: LabelSet = {}) {
-		this.ensureExists(name, 'summary', {
-			labelNames: Object.keys(labels),
-		});
+		this.ensureExists(name, 'summary', labels);
 		this.metrics.summary[name].observe(labels, val);
 	}
 
 	// observe a histogram metric
 	public histogram(name: string, val: number, labels: LabelSet = {}) {
-		this.ensureExists(name, 'histogram', {
-			labelNames: Object.keys(labels),
-		});
+		this.ensureExists(name, 'histogram', labels);
 		this.metrics.histogram[name].observe(labels, val);
 	}
 
@@ -140,7 +128,12 @@ export class MetricsGatherer {
 
 	// used declaratively to ensure a given metric of a certain kind exists,
 	// given some custom params to instantiate it if absent
-	public ensureExists(name: string, kind: string, custom: CustomParams = {}) {
+	public ensureExists(
+		name: string,
+		kind: string,
+		labels: LabelSet = {},
+		custom: CustomParams = {},
+	) {
 		// if exists, bail early
 		if (this.existMap[name]) {
 			return;
@@ -160,6 +153,7 @@ export class MetricsGatherer {
 		this.metrics[kind][name] = constructors[kind].create({
 			name,
 			help: this.descriptions[name],
+			labelNames: Object.keys(labels),
 			...custom,
 			...this.customParams[name],
 		});
