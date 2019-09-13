@@ -1,4 +1,16 @@
 - commits:
+    - subject: error-protect all class methods
+      hash: 01b5ab84e514c3a6f9289425cc8e2f097913a143
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Nick Payne <nickp@balena.io>
+        signed-off-by: Nick Payne <nickp@balena.io>
+      author: dt-rush
+  version: 3.0.1
+  date: 2019-09-13T13:56:23.087Z
+- commits:
     - subject: Lazily generate `labelNames`
       hash: 36c50b79d322bc4d41d4eeca9ac594ffc5269490
       body: |
