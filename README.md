@@ -271,3 +271,7 @@ on('disconnect', () => {
     metrics.gauge('active_connections_max', nConnections);
 });
 ```
+
+### Internal errors
+
+Errors occuring in calls to this library are caught, logged to stderr if the `DEBUG` env var is defined, and a public property of the MetricsGatherer object will be incremented: `internalErrorCount`.
