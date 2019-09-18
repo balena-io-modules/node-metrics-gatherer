@@ -3,6 +3,11 @@ node-metrics-gatherer
 
 gather and expose prometheus metrics with a simple syntax
 
+## Diagram
+
+[![diagram of module](https://docs.google.com/drawings/d/e/2PACX-1vQV0WH1tpJJR_nm1FkIEUMwX2-0QNUZY-j9ArDtJ3MUyrDGnzvWm-e8J6CNmpD72V5uzttocdNUcRBD/pub?w=984&amp;h=407)](https://docs.google.com/drawings/d/1BvUjCTtYJNlS9GIFXnfMcNjkt2m1Le_j80btPTLiarE/edit?usp=sharing)
+
+
 ## Basic Usage:
 
 ### Writing metrics
