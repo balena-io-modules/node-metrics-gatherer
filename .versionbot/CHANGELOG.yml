@@ -1,4 +1,20 @@
 - commits:
+    - subject: >-
+        explicit typing of metrics at describe time, simplified metrics metadata
+        handling, improve single-line summary/histogram
+      hash: d3a3f84069d6e41e6e4b5dec9c8075e2a407ba04
+      body: ''
+      footer:
+        Change-type: Major
+        change-type: Major
+        Connects-to: '#30'
+        connects-to: '#30'
+        Signed-off-by: Nick Payne <nickp@balena.io>
+        signed-off-by: Nick Payne <nickp@balena.io>
+      author: dt-rush
+  version: 4.0.0
+  date: 2019-10-08T22:14:15.211Z
+- commits:
     - subject: add diagram to README
       hash: 8e6c99a91062388ff96ad00d09b6ee6c010f5d28
       body: ''
