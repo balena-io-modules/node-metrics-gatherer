@@ -6,18 +6,15 @@ import * as Debug from 'debug';
 const debug = Debug('node-metrics-gatherer');
 
 import {
+	AuthTestFunc,
 	ConstructorMap,
 	CustomParams,
-	CustomParamsMap,
-	DescriptionMap,
-	ExistMap,
-	KindMap,
+	Kind,
 	LabelSet,
 	MetricConstructor,
 	MetricsMap,
+	MetricsMetaMap,
 } from './types';
-
-type AuthTestFunc = (req: express.Request) => boolean;
 
 export class MetricsGathererError extends TypedError {}
 
@@ -28,16 +25,23 @@ const constructors: ConstructorMap = {
 	histogram: new MetricConstructor(prometheus.Histogram),
 };
 
+interface Describer {
+	[kind: string]: (
+		name: string,
+		help: string,
+		customParams?: CustomParams,
+	) => void;
+}
+
 export class MetricsGatherer {
 	public internalErrorCount: number;
+	public meta: MetricsMetaMap;
 	private metrics: MetricsMap;
-	private customParams: CustomParamsMap;
-	private descriptions: DescriptionMap;
-	private existMap: ExistMap;
-	private kinds: KindMap;
+	public describe: Describer;
 
 	constructor() {
 		this.initState();
+		this.setupDescribe();
 	}
 
 	private initState() {
@@ -45,38 +49,43 @@ export class MetricsGatherer {
 			this.metrics = {
 				gauge: {},
 				counter: {},
-				summary: {},
 				histogram: {},
+				summary: {},
 			};
-			this.customParams = {};
-			this.descriptions = {};
-			this.existMap = {};
-			this.kinds = {};
+			this.meta = {};
 			this.internalErrorCount = 0;
 		} catch (e) {
 			this.err(e);
 		}
 	}
 
-	// fetch the description for a metric
-	public describe(name: string, text: string, custom: CustomParams = {}) {
-		try {
-			if (this.descriptions[name]) {
-				throw new MetricsGathererError(
-					`tried to describe metric "${name}" twice`,
-				);
-			}
-			this.descriptions[name] = text;
-			this.customParams[name] = custom;
-		} catch (e) {
-			this.err(e);
+	private setupDescribe() {
+		this.describe = {};
+		for (const kind of ['gauge', 'counter', 'histogram', 'summary'] as const) {
+			this.describe[kind] = (
+				name: string,
+				help: string,
+				customParams: CustomParams = {},
+			) => {
+				if (this.meta[name]) {
+					throw new MetricsGathererError(
+						`tried to describe metric "${name}" twice`,
+					);
+				} else {
+					this.meta[name] = {
+						kind,
+						help,
+						customParams,
+					};
+				}
+			};
 		}
 	}
 
 	// observe a gauge metric
 	public gauge(name: string, val: number, labels: LabelSet = {}) {
 		try {
-			this.ensureExists(name, 'gauge', labels);
+			this.ensureExists('gauge', name, labels);
 			this.metrics.gauge[name].set(labels, val);
 		} catch (e) {
 			this.err(e);
@@ -87,13 +96,13 @@ export class MetricsGatherer {
 	public inc(name: string, val: number = 1, labels: LabelSet = {}) {
 		try {
 			// ensure either that this metric already exists, or if not, create a gauge
-			this.ensureExists(name, 'gauge', labels);
+			this.ensureExists('gauge', name, labels);
 			if (!this.checkMetricType(name, ['gauge', 'counter'])) {
 				throw new MetricsGathererError(
 					`Tried to increment non-gauge, non-counter metric ${name}`,
 				);
 			}
-			if (this.kinds[name] === 'gauge') {
+			if (this.meta[name].kind === 'gauge') {
 				this.metrics.gauge[name].inc(labels, val);
 			} else {
 				this.metrics.counter[name].inc(labels, val);
@@ -107,7 +116,7 @@ export class MetricsGatherer {
 	public dec(name: string, val: number = 1, labels: LabelSet = {}) {
 		try {
 			// ensure either that this metric already exists, or if not, create a gauge
-			this.ensureExists(name, 'gauge', labels);
+			this.ensureExists('gauge', name, labels);
 			if (!this.checkMetricType(name, ['gauge'])) {
 				throw new MetricsGathererError(
 					`Tried to decrement non-gauge metric ${name}`,
@@ -122,7 +131,7 @@ export class MetricsGatherer {
 	// observe a counter metric
 	public counter(name: string, val: number = 1, labels: LabelSet = {}) {
 		try {
-			this.ensureExists(name, 'counter', labels);
+			this.ensureExists('counter', name, labels);
 			this.metrics.counter[name].inc(labels, val);
 		} catch (e) {
 			this.err(e);
@@ -130,9 +139,14 @@ export class MetricsGatherer {
 	}
 
 	// observe a summary metric
-	public summary(name: string, val: number, labels: LabelSet = {}) {
+	public summary(
+		name: string,
+		val: number,
+		labels: LabelSet = {},
+		customParams: CustomParams = {},
+	) {
 		try {
-			this.ensureExists(name, 'summary', labels);
+			this.ensureExists('summary', name, labels, customParams);
 			this.metrics.summary[name].observe(labels, val);
 		} catch (e) {
 			this.err(e);
@@ -140,9 +154,14 @@ export class MetricsGatherer {
 	}
 
 	// observe a histogram metric
-	public histogram(name: string, val: number, labels: LabelSet = {}) {
+	public histogram(
+		name: string,
+		val: number,
+		labels: LabelSet = {},
+		customParams: CustomParams = {},
+	) {
 		try {
-			this.ensureExists(name, 'histogram', labels);
+			this.ensureExists('histogram', name, labels, customParams);
 			this.metrics.histogram[name].observe(labels, val);
 		} catch (e) {
 			this.err(e);
@@ -162,46 +181,55 @@ export class MetricsGatherer {
 	// check that a metric is of the given type(s)
 	public checkMetricType(name: string, kinds: string[]) {
 		try {
-			return kinds.includes(this.kinds[name]);
+			return kinds.includes(this.meta[name].kind);
 		} catch (e) {
 			this.err(e);
 		}
 	}
 
-	// used declaratively to ensure a given metric of a certain kind exists,
-	// given some custom params to instantiate it if absent
-	public ensureExists(
+	public getMetric(name: string): prometheus.Metric | undefined {
+		if (this.meta[name]) {
+			return this.metrics[this.meta[name].kind][name];
+		}
+	}
+
+	public exists(name: string) {
+		return this.getMetric(name) != null;
+	}
+
+	// used declaratively to ensure a given metric of a certain kind exists
+	private ensureExists(
+		kind: Kind,
 		name: string,
-		kind: string,
 		labels: LabelSet = {},
-		custom: CustomParams = {},
+		customParams: CustomParams = {},
 	) {
 		try {
 			// if exists, bail early
-			if (this.existMap[name]) {
+			if (this.exists(name)) {
 				return;
 			}
-			// if already exists with another kind, throw error
-			if (this.kinds[name] && this.kinds[name] !== kind) {
+			// if no meta, describe by default to satisfy prometheus
+			if (!this.meta[name]) {
+				this.describe[kind](name, `undescribed ${kind} metric`, {
+					labelNames: Object.keys(labels),
+					...customParams,
+				});
+			} else if (this.meta[name].kind !== kind) {
+				// if name already associated with another kind, throw error
 				throw new MetricsGathererError(
 					`tried to use ${name} twice - first as ` +
-						`${this.kinds[name]}, then as ${kind}`,
+						`${this.meta[name].kind}, then as ${kind}`,
 				);
 			}
-			// if not described, describe (poorly)
-			if (!(name in this.descriptions)) {
-				this.descriptions[name] = `undescribed ${kind} metric`;
-			}
-			// if doesn't exist, create metric
+			// create prometheus.Metric instance
 			this.metrics[kind][name] = constructors[kind].create({
 				name,
-				help: this.descriptions[name],
+				help: this.meta[name].help,
 				labelNames: Object.keys(labels),
-				...custom,
-				...this.customParams[name],
+				...customParams,
+				...this.meta[name].customParams,
 			});
-			this.kinds[name] = kind;
-			this.existMap[name] = true;
 		} catch (e) {
 			this.err(e);
 		}
@@ -210,11 +238,9 @@ export class MetricsGatherer {
 	// reset a given metric by name
 	public reset(name: string) {
 		try {
-			// will only have an entry in this.kinds if the metric has been observed
-			// at least once (don't need to "reset" otherwise, and avoids error in
-			// indexing)
-			if (this.kinds[name]) {
-				this.metrics[this.kinds[name]][name].reset();
+			const metric = this.getMetric(name);
+			if (metric) {
+				metric.reset();
 			}
 		} catch (e) {
 			this.err(e);

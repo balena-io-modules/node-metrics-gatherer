@@ -62,10 +62,11 @@ if (cluster.isMaster) {
 }
 ```
 
-### A warning about `metrics.describe()` and Node's `cluster` module
+### A warning about `metrics.describe` and Node's `cluster` module
 
-When you make a call to `metrics.describe()`, a global registry object is updated with the 
-metric's description. If you call `metrics.describe()` in the master before forking, the
+When you make a call to `metrics.describe.counter()` (or `metrics.describe.histogram()`, etc.)
+, a global registry object is updated with the metric's description. If you call 
+`metrics.describe.counter()` in the master before forking, the
 registries inside the workers will not have the metric definition, and because you can write
 to a metric without first describing it, this means it will simply have all defaults, and not
 your custom description, labels, buckets, percentiles, etc...
@@ -160,10 +161,10 @@ Descriptions can be used to inform prometheus / the client library about the met
 
 ### Help text
 
-Metrics can be given a help text using syntax like the following:
+Metrics description calls specify the type of the metric, its name, and a description, at minimum:
 
 ```
-metrics.describe(
+metrics.describe.histogram(
     'api_request_duration_milliseconds',
     'histogram of total time taken to service requests to the api including queue wait (all queues and all userAgents together)',
 );
@@ -174,7 +175,7 @@ metrics.describe(
 This is where labels would be specified as well:
 
 ```
-metrics.describe(
+metrics.describe.histogram(
     'api_request_duration_milliseconds',
     'histogram of total time taken to service requests to the api including queue wait (all queues and all userAgents together)',
     {
@@ -185,12 +186,11 @@ metrics.describe(
 
 ### Histogram buckets and Summary percentiles
 
-You can also use `.describe()` to declare buckets for histogram-type metrics or
-percentiles for summary-type metrics, if you'd like them to differ from the defaults:
+You can also declare buckets for histogram-type metrics or percentiles for summary-type metrics, if you'd like them to differ from the defaults:
 
 **histogram buckets**
 ```
-metrics.describe(
+metrics.describe.histogram(
     'api_request_duration_milliseconds',
     'histogram of total time taken to service requests to the api including queue wait',
     {
@@ -202,7 +202,7 @@ metrics.describe(
 
 **summary percentiles**
 ```
-metrics.describe(
+metrics.describe.summary(
     'api_request_duration_milliseconds',
     'summary of total time taken to service requests to the api including queue wait',
     {
@@ -255,7 +255,7 @@ deviated from the average (which would be `total / nWorkers`), we could also
 record a gauge which had been described with the `max` aggregation strategy:
 
 ```
-metrics.describe(
+metrics.describe.gauge(
     'active_connections_max',
     'the number of connections being handled by the busiest worker',
     {
