@@ -300,7 +300,7 @@ export class MetricsGatherer {
 	}
 
 	private err(e: Error) {
-		debug(e.stack);
+		debug(e);
 		this.internalErrorCount++;
 	}
 }
