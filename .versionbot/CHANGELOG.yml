@@ -1,4 +1,14 @@
 - commits:
+    - subject: Avoid unnecessarily serialising the stack trace
+      hash: e37a45b53a1ad28e247fa00c5cd595cc0db1f57e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 4.0.1
+  date: 2019-10-10T18:21:37.743Z
+- commits:
     - subject: >-
         explicit typing of metrics at describe time, simplified metrics metadata
         handling, improve single-line summary/histogram
