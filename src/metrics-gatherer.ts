@@ -260,7 +260,10 @@ export class MetricsGatherer {
 
 	// create an express request handler given an auth test function which is
 	// suitable for use in a context where we're using node's `cluster` module
-	public aggregateRequestHandler(authTest?: AuthTestFunc): express.Handler {
+	public aggregateRequestHandler(
+		includeMaster: boolean = false,
+		authTest?: AuthTestFunc,
+	): express.Handler {
 		const aggregatorRegistry = new prometheus.AggregatorRegistry();
 		return (req, res) => {
 			if (authTest && !authTest(req)) {
@@ -270,6 +273,9 @@ export class MetricsGatherer {
 				.clusterMetrics()
 				.then((metrics: string) => {
 					res.set('Content-Type', aggregatorRegistry.contentType);
+					if (includeMaster) {
+						res.write(`${prometheus.register.metrics()}\n`);
+					}
 					res.send(metrics);
 				})
 				.catch((err: Error) => {
