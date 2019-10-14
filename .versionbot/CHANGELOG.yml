@@ -1,4 +1,16 @@
 - commits:
+    - subject: Allow for serving merged metrics via `aggregateRequestHandler`
+      hash: d90469aa951f779665e9a13db45faa42d77855de
+      body: ''
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Will Boyce <will@balena.io>
+        signed-off-by: Will Boyce <will@balena.io>
+      author: Will Boyce
+  version: 5.0.0
+  date: 2019-10-14T15:20:05.005Z
+- commits:
     - subject: Avoid unnecessarily serialising the stack trace
       hash: e37a45b53a1ad28e247fa00c5cd595cc0db1f57e
       body: ''
