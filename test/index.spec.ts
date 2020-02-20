@@ -29,6 +29,12 @@ describe('Gauge', () => {
 		expect(/TYPE undescribed_gauge gauge/.test(output)).to.be.true;
 	});
 
+	it('should not create a gauge, but a counter, if _total suffix found', () => {
+		metrics.inc('build_error_total', 1);
+		const output = metrics.output();
+		expect(/TYPE build_error_total counter/.test(output)).to.be.true;
+	});
+
 	it('should inc and dec by 1 by default', () => {
 		let output: string;
 

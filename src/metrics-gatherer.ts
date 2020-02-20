@@ -98,8 +98,11 @@ export class MetricsGatherer {
 	// increment a counter or gauge
 	public inc(name: string, val: number = 1, labels: LabelSet = {}) {
 		try {
-			// ensure either that this metric already exists, or if not, create a gauge
-			this.ensureExists('gauge', name, labels);
+			// ensure either that this metric already exists, or if not
+			// create either a counter if `_total` suffix is found, or
+			// a gauge otherwise
+			const kind = /.+_total$/.test(name) ? 'counter' : 'gauge';
+			this.ensureExists(kind, name, labels);
 			if (!this.checkMetricType(name, ['gauge', 'counter'])) {
 				throw new MetricsGathererError(
 					`Tried to increment non-gauge, non-counter metric ${name}`,
