@@ -7,7 +7,7 @@
     "test": "npm run lint && npm run prepare && mocha --exit -r ts-node/register test/*.spec.ts",
     "build": "npx tsc --project ./tsconfig.build.json",
     "prettify": "resin-lint --typescript --fix src/ test/",
-    "lint:typescript": "resin-lint --typescript src/ test/ && tsc --noEmit",
+    "lint:typescript": "resin-lint --typescript src/ test/ && npx tsc --noEmit",
     "prepare": "npm run build",
     "lint": "npm run lint:typescript"
   },
