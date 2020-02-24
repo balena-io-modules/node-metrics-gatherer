@@ -1,4 +1,14 @@
 - commits:
+    - subject: Update prom-client to 12.x
+      hash: 5b84f63caeb9954ba4e40c0c9a2a6fa09bcc9926
+      body: ''
+      footer:
+        Change-type: major
+        change-type: major
+      author: Pagan Gazzard
+  version: 5.0.0
+  date: 2020-02-24T18:37:51.751Z
+- commits:
     - subject: Update dependencies and use standard linting
       hash: 982fe061c438c104ddaa22c03dd4915641c09515
       body: ''
