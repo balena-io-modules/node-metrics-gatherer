@@ -1,5 +1,5 @@
 {
   "extends": [
-    "tslint-no-unused-expression-chai"
+    "resin-lint/config/tslint-prettier.json"
   ]
 }
