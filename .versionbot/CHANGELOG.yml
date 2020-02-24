@@ -1,4 +1,14 @@
 - commits:
+    - subject: Update dependencies and use standard linting
+      hash: 982fe061c438c104ddaa22c03dd4915641c09515
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 4.0.2
+  date: 2020-02-24T18:07:58.246Z
+- commits:
     - subject: Avoid unnecessarily serialising the stack trace
       hash: e37a45b53a1ad28e247fa00c5cd595cc0db1f57e
       body: ''
