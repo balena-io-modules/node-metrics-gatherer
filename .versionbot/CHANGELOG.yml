@@ -1,4 +1,16 @@
 - commits:
+    - subject: npx tsc (avoid falling back on user path tsc)
+      hash: a86586d39a1d96ede02d3880a895189e54f05311
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: dt-rush <nickp@balena.io>
+        signed-off-by: dt-rush <nickp@balena.io>
+      author: dt-rush
+  version: 5.0.1
+  date: 2020-02-24T19:56:03.096Z
+- commits:
     - subject: Update prom-client to 12.x
       hash: 5b84f63caeb9954ba4e40c0c9a2a6fa09bcc9926
       body: ''
