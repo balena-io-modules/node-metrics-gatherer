@@ -281,6 +281,11 @@ export class MetricsGatherer {
 		};
 	}
 
+	// collect default metrics (underlying prom-client)
+	public collectDefaultMetrics() {
+		prometheus.collectDefaultMetrics();
+	}
+
 	// get the prometheus output
 	public output(): string {
 		try {
