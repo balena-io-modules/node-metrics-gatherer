@@ -187,7 +187,9 @@ export class MetricsGatherer {
 		}
 	}
 
-	public getMetric(name: string): prometheus.Metric | undefined {
+	public getMetric<T extends string = string>(
+		name: string,
+	): prometheus.Metric<T> | undefined {
 		if (this.meta[name]) {
 			return this.metrics[this.meta[name].kind][name];
 		}

@@ -14,9 +14,9 @@ export interface CustomParams {
 	aggregator?: AggregatorStrategy;
 }
 // weird class to allow polymorphism over constructors yielding type Metric
-export class MetricConstructor {
-	constructor(public construct: new (...args: any[]) => prometheus.Metric) {}
-	public create(...args: any[]): prometheus.Metric {
+export class MetricConstructor<T extends string = string> {
+	constructor(public construct: new (...args: any[]) => prometheus.Metric<T>) {}
+	public create(...args: any[]): prometheus.Metric<T> {
 		return new this.construct(...args);
 	}
 }
@@ -25,11 +25,11 @@ export interface ConstructorMap {
 	[kind: string]: MetricConstructor;
 }
 
-export interface MetricsMap {
-	gauge: { [name: string]: prometheus.Gauge };
-	counter: { [name: string]: prometheus.Counter };
-	histogram: { [name: string]: prometheus.Histogram };
-	summary: { [name: string]: prometheus.Summary };
+export interface MetricsMap<T extends string = string> {
+	gauge: { [name: string]: prometheus.Gauge<T> };
+	counter: { [name: string]: prometheus.Counter<T> };
+	histogram: { [name: string]: prometheus.Histogram<T> };
+	summary: { [name: string]: prometheus.Summary<T> };
 }
 
 export type Kind = keyof MetricsMap;
