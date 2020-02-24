@@ -1,4 +1,16 @@
 - commits:
+    - subject: collectDefaultMetrics passthrough method
+      hash: 268f7da055a56fae0545f81e02336f85b13ab4f0
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: dt-rush <nickp@balena.io>
+        signed-off-by: dt-rush <nickp@balena.io>
+      author: dt-rush
+  version: 5.1.0
+  date: 2020-02-24T19:55:22.943Z
+- commits:
     - subject: Update prom-client to 12.x
       hash: 5b84f63caeb9954ba4e40c0c9a2a6fa09bcc9926
       body: ''
