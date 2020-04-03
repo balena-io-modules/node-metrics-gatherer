@@ -44,6 +44,34 @@ describe('Gauge', () => {
 		output = metrics.output();
 		expect(/undescribed_gauge 1/.test(output)).to.be.true;
 	});
+
+	it('should track runtime of functions properly', () => {
+		let output: string;
+
+		const func = async () => {
+			await new Promise(resolve => setTimeout(resolve, 100));
+		};
+		metrics.run('func_running_gauge', func);
+		output = metrics.output();
+		expect(/func_running_gauge 1/.test(output)).to.be.true;
+		setTimeout(() => {
+			output = metrics.output();
+			expect(/func_running_gauge 0/.test(output)).to.be.true;
+		}, 200);
+	});
+
+	it('should track runtime of promises properly', () => {
+		let output: string;
+
+		const promise = new Promise(resolve => setTimeout(resolve, 100));
+		metrics.resolve('promise_running_gauge', promise);
+		output = metrics.output();
+		expect(/promise_running_gauge 1/.test(output)).to.be.true;
+		setTimeout(() => {
+			output = metrics.output();
+			expect(/promise_running_gauge 0/.test(output)).to.be.true;
+		}, 200);
+	});
 });
 
 describe('Counter', () => {
