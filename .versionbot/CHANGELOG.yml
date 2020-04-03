@@ -1,4 +1,16 @@
 - commits:
+    - subject: add methods to gauge-track the in-flight count of functions and promises
+      hash: e3d789697664db47c0eb6dc1f9016aebb40c4966
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: dt-rush <nickp@balena.io>
+        signed-off-by: dt-rush <nickp@balena.io>
+      author: dt-rush
+  version: 5.2.0
+  date: 2020-04-03T15:43:52.256Z
+- commits:
     - subject: collectDefaultMetrics passthrough method
       hash: 268f7da055a56fae0545f81e02336f85b13ab4f0
       body: ''
