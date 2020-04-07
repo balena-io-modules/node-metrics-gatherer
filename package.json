@@ -4,7 +4,7 @@
   "description": "gather / export prometheus metrics easily in nodejs",
   "main": "out/index.js",
   "scripts": {
-    "test": "npm run lint && npm run prepare && mocha --exit -r ts-node/register test/*.spec.ts",
+    "test": "npm run lint && npm run prepare && TS_NODE_FILES=true mocha --exit -r ts-node/register test/*.spec.ts",
     "build": "npx tsc --project ./tsconfig.build.json",
     "prettify": "resin-lint --typescript --fix src/ test/",
     "lint:typescript": "resin-lint --typescript src/ test/ && tsc --noEmit",
