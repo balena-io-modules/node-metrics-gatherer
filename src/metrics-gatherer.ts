@@ -5,6 +5,9 @@ import { TypedError } from 'typed-error';
 import * as Debug from 'debug';
 const debug = Debug('node-metrics-gatherer');
 
+import { latencyMetricsMiddleware } from './api-latency';
+import { describeAPIMetricsOnce } from './api-latency-describe';
+
 import {
 	AuthTestFunc,
 	ConstructorMap,
@@ -284,6 +287,12 @@ export class MetricsGatherer {
 	// collect default metrics (underlying prom-client)
 	public collectDefaultMetrics() {
 		prometheus.collectDefaultMetrics();
+	}
+
+	// collect generic API metrics given an express app
+	public collectAPIMetrics(app: express.Application) {
+		describeAPIMetricsOnce(this);
+		app.use(latencyMetricsMiddleware(this));
 	}
 
 	// get the prometheus output
