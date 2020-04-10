@@ -41,10 +41,12 @@ export class MetricsGatherer {
 	public meta: MetricsMetaMap;
 	private metrics: MetricsMap;
 	public describe: Describer;
+	public client: any;
 
 	constructor() {
 		this.initState();
 		this.setupDescribe();
+		this.client = prometheus;
 	}
 
 	private initState() {
