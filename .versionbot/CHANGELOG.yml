@@ -1,4 +1,16 @@
 - commits:
+    - subject: add simpler export method exportOn()
+      hash: 8bef15d5bf14cacd6f860f4ff25491984e20f0dd
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: dt-rush <nickp@balena.io>
+        signed-off-by: dt-rush <nickp@balena.io>
+      author: dt-rush
+  version: 5.3.0
+  date: 2020-04-10T17:32:13.145Z
+- commits:
     - subject: add behaviour to auto-detect a counter based on _total suffix
       hash: 7b6933fdb4fbe5bb49ef72d0b0e1e21e01566f5e
       body: ''
