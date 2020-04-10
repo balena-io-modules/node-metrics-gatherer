@@ -24,41 +24,42 @@ metrics.gauge('temperature', 28);
 
 ### Exporting metrics (simple)
 
-Then, somewhere else, you can create a request handler to export the metrics:
+Then, you need to make sure the metrics can be served when a request arrives, either on an existing express app, or creating a dedicated express app listening on a given port:
 
 ```
-// create an express request handler to respond to prometheus pulls
+// create a request handler to respond to prometheus pulls, given an
+// already-existing express app
 app.use('/metrics', metrics.requestHandler());
+
+// OR, create our own app (using port 9337, arbitrarily)
+metrics.exportOn(9337, '/metrics');
 ```
 
 Optionally, you can provide a function which validates whether the requeest should
-be served or given a 403, by returning a boolean:
+be served or given a 403, by returning a boolean (an "authFunc"):
 
 ```
-app.use('/metrics', metrics.requestHandler((req) => req.get('Authorization') === 'Basic 123456'));
+const authFunc = (req) => req.get('Authorization') === 'Basic 123456');
+app.use('/metrics', metrics.requestHandler(authFunc));
+
+// OR, if creating our own app (using port 9337, arbitrarily)
+metrics.exportOn(9337, '/metrics', metrics.requestHandler(authFunc));
 ```
 
 ## Exporting metrics (cluster)
 
-If an application forks several child workers and they each listen on `:80/metrics`,
-they will write their own metrics each time, causing instability and confusion. Thankfully,
-[`prom-client`](https://github.com/siimon/prom-client/) provides a way to handle this, with a registry you create just after you fork. Internally, it handles message-passing between the
-workers and the main process, where the metrics are aggregated. The `examples/` folder in that repo has (as of this writing) an example.
+If an application forks several child workers and they each listen on `:80/metrics`, each worker will have a random chance of being hit, only exporting their own metrics each time, causing instability and confusion. Thankfully, [`prom-client`](https://github.com/siimon/prom-client/) provides a way to handle this, with a registry you create just after you fork. Internally, it handles message-passing between the workers and the main process, where the metrics are aggregated. The `examples/` folder in that repo has (as of this writing) an example. This requires a separate express app to be created, listening on a port which isn't participating in the worker cluster pooling.
 
-See below the function included here to wrap that AggregatorRegistry class:
+See below an example usage:
+
+(port 9337 chosen arbitrarily)
 
 ```
-// create an express request handler to respond to prometheus pulls at the level
-// of the entrypoint script of an app which uses the `cluster` module to fork workers
-
 if (cluster.isMaster) {
 	for (let i = 0; i < 4; i++) {
 		cluster.fork();
 	}
-	const aggregateMetricsServer = express();
-	aggregateMetricsServer.get('/cluster_metrics', metrics.aggregateRequestHandler());
-	aggregateMetricsServer.listen(3001);
-	console.log('Cluster metrics server listening on 3001, metrics exposed on /cluster_metrics');
+	metrics.listenAndExport(9337, '/cluster_metrics', metrics.aggregateRequestHandler());
 }
 ```
 

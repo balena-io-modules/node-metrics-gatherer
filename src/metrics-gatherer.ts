@@ -255,6 +255,18 @@ export class MetricsGatherer {
 		}
 	}
 
+	// create an express app listening on a given port, responding with the given
+	// requesthandler
+	public exportOn(
+		port: number,
+		path: string,
+		requestHandler?: express.Handler,
+	) {
+		const app = express();
+		app.use(path, requestHandler ?? this.requestHandler());
+		app.listen(port);
+	}
+
 	// create an express request handler given an auth test function
 	public requestHandler(authTest?: AuthTestFunc): express.Handler {
 		return (req: express.Request, res: express.Response) => {
