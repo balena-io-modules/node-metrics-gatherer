@@ -13,6 +13,12 @@ const expectToErr = (f: () => void) => {
 	expect(metrics.internalErrorCount - errsBefore).to.equal(1);
 };
 
+describe('Client Passthrough', () => {
+	it('method on client should be accessible (check exponentialBuckets)`', () => {
+		expect(metrics.client.exponentialBuckets(1, 2, 3)).to.eql([1, 2, 4]);
+	});
+});
+
 describe('Error', () => {
 	it('should fail if same name used for different kinds', () => {
 		expectToErr(() => {
