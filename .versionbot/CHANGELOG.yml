@@ -1,4 +1,18 @@
 - commits:
+    - subject: >-
+        expose underlying client so underlying original functions are still
+        available if our semantics are different
+      hash: 1e0a8799370d670b6c49921666c2cd0f702a46b2
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: dt-rush <nickp@balena.io>
+        signed-off-by: dt-rush <nickp@balena.io>
+      author: dt-rush
+  version: 5.4.0
+  date: 2020-04-10T18:26:03.646Z
+- commits:
     - subject: add simpler export method exportOn()
       hash: 8bef15d5bf14cacd6f860f4ff25491984e20f0dd
       body: ''
