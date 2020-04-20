@@ -5,8 +5,7 @@ import { TypedError } from 'typed-error';
 import * as Debug from 'debug';
 const debug = Debug('node-metrics-gatherer');
 
-import { latencyMetricsMiddleware } from './api-latency';
-import { describeAPIMetricsOnce } from './api-latency-describe';
+import { collectAPIMetrics } from './collectors/api/collect';
 
 import {
 	AuthTestFunc,
@@ -245,12 +244,16 @@ export class MetricsGatherer {
 		}
 	}
 
-	// reset a given metric by name
-	public reset(name: string) {
+	// reset the metrics or only a given metric if name supplied
+	public reset(name?: string) {
 		try {
-			const metric = this.getMetric(name);
-			if (metric) {
-				metric.reset();
+			if (!name) {
+				prometheus.register.resetMetrics();
+			} else {
+				const metric = this.getMetric(name);
+				if (metric) {
+					metric.reset();
+				}
 			}
 		} catch (e) {
 			this.err(e);
@@ -307,9 +310,9 @@ export class MetricsGatherer {
 	}
 
 	// collect generic API metrics given an express app
-	public collectAPIMetrics(app: express.Application) {
-		describeAPIMetricsOnce(this);
-		app.use(latencyMetricsMiddleware(this));
+	public collectAPIMetrics(app: express.Application): express.Application {
+		app.use(collectAPIMetrics(this));
+		return app;
 	}
 
 	// get the prometheus output
