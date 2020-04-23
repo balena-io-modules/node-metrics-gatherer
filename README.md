@@ -90,6 +90,27 @@ Used to record a value which can vary over time, like temperature.
 metrics.gauge('greenhouse_temperature', temp [, labelObject ]);
 ```
 
+#### Using a gauge to track the "in-flight count" for functions and promises
+
+Using the `.run()` and `.resolve()` methods, we can keep an instantaneous gauge of how many such functions/promises
+are currently running / waiting to resolve/reject:
+
+```
+const delayMS = 1000;
+
+const func = async () => {
+    await new Promise(resolve => setTimeout(resolve, delayMS));
+};
+
+const promise = new Promise(resolve => setTimeout(resolve, delayMS));
+
+// this gauge will have a value incremented by 1 when func begins, and decremened by 1 when func ends
+metrics.run('func_in_flight', func);
+
+// this gauge will have a value incremented by 1 when first called, and decremened by 1 when the promise resolves/rejects
+metrics.resolve('promise_in_flight', promise);
+```
+
 #### Counter
 
 Used to record increases to a monotonic counter, like requests served.

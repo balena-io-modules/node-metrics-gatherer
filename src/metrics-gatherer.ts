@@ -120,6 +120,21 @@ export class MetricsGatherer {
 		}
 	}
 
+	// increment/decrement a gauge during the runtime of a function
+	public async run(name: string, func: () => any, labels: LabelSet = {}) {
+		this.inc(name, 1, labels);
+		await func();
+		this.inc(name, -1, labels);
+	}
+
+	// increment/decrement a gauge during the runtime of a promise (wait for it to resolve)
+	public resolve(name: string, promise: Promise<any>, labels: LabelSet = {}) {
+		this.inc(name, 1, labels);
+		promise.finally(() => {
+			this.inc(name, -1, labels);
+		});
+	}
+
 	// decrement a gauge
 	public dec(name: string, val: number = 1, labels: LabelSet = {}) {
 		try {
