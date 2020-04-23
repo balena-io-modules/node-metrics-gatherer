@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'exportOn() to have default path /metrics, requiring only port'
+      hash: e5fa4bc8c6a93d24b23de32107c8d2396fca6543
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: dt-rush <nickp@balena.io>
+        signed-off-by: dt-rush <nickp@balena.io>
+      author: dt-rush
+  version: 5.5.0
+  date: 2020-04-23T03:42:27.804Z
+- commits:
     - subject: >-
         expose underlying client so underlying original functions are still
         available if our semantics are different
