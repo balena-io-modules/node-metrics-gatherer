@@ -261,7 +261,7 @@ export class MetricsGatherer {
 	// requesthandler
 	public exportOn(
 		port: number,
-		path: string,
+		path: string = '/metrics',
 		requestHandler?: express.Handler,
 	) {
 		const app = express();
