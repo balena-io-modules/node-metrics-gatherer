@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'process.hrtime [0] returns *seconds*, not ms, so patch to timing logic'
+      hash: b4be91210e720fa60d9b7f681262abae4be680d8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: dt-rush <nickp@balena.io>
+        signed-off-by: dt-rush <nickp@balena.io>
+      author: dt-rush
+  version: 5.6.1
+  date: 2020-05-11T16:57:15.747Z
+- commits:
     - subject: comprehensive refactor / cleanup of API metrics gathering
       hash: 3c53896e607eeea2811772db9dc303ea8cb020a9
       body: ''
