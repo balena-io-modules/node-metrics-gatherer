@@ -59,11 +59,11 @@ export const collectAPIMetrics = (
 	const observeLatency = (req: Request): (() => void) => {
 		const t0 = process.hrtime();
 		return () => {
-			const t1 = process.hrtime();
-			const dt = t1[0] - t0[0] + (t1[1] - t0[1]) / 1e6;
+			const dt = process.hrtime(t0);
+			const duration = dt[0] * 1000 + dt[1] / 1e6;
 			metrics.histogram(
 				'api_latency_milliseconds',
-				dt,
+				duration,
 				req._metrics_gatherer.labels,
 			);
 		};
