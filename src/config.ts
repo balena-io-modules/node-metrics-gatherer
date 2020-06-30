@@ -6,7 +6,7 @@ export const latencyBuckets =
 	process.env['NODE_METRICS_GATHERER_LATENCY_BUCKETS']
 		?.split(',')
 		.map(s => parseInt(s, 10)) ??
-	exponentialBuckets(4, Math.SQRT2, 29).map(Math.round);
+	exponentialBuckets(0.004, Math.SQRT2, 29).map(Math.round);
 
 // from 256 bytes up to 4GB, sqrt2 factor
 // allows specification via env-var as comma-separated values
