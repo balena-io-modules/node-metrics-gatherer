@@ -1,4 +1,16 @@
 - commits:
+    - subject: api latency in seconds
+      hash: 46b778ff3f1c6b2af719e980f917f1b534cc56fd
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: dt-rush <nickp@balena.io>
+        signed-off-by: dt-rush <nickp@balena.io>
+      author: dt-rush
+  version: 5.7.1
+  date: 2020-06-30T17:33:26.684Z
+- commits:
     - subject: export constructor for non-process-global usage
       hash: 19e6d43a20bbe9271fc741d5a6222cce3e6c7d06
       body: ''
