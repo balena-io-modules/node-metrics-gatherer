@@ -60,9 +60,9 @@ export const collectAPIMetrics = (
 		const t0 = process.hrtime();
 		return () => {
 			const dt = process.hrtime(t0);
-			const duration = dt[0] + dt[1] / 1e9;
+			const duration = dt[0] * 1000 + dt[1] / 1e6;
 			metrics.histogram(
-				'api_latency_seconds',
+				'api_latency_milliseconds',
 				duration,
 				req._metrics_gatherer.labels,
 			);

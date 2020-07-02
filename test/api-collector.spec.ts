@@ -44,7 +44,7 @@ describe('API metrics', () => {
 					/api_arrival_total{state="completed",statusCode="200"} 1/,
 					/api_bytes_read_bucket{le="\+Inf",state="completed",statusCode="200"} 1/,
 					/api_bytes_written_bucket{le="\+Inf",state="completed",statusCode="200"} 1/,
-					/api_latency_seconds_count{state="completed",statusCode="200"} 1/,
+					/api_latency_milliseconds_count{state="completed",statusCode="200"} 1/,
 				];
 				metricsRegexps.forEach(re => {
 					expect(re.test(output)).to.be.true;
