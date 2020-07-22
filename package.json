@@ -3,6 +3,7 @@
   "version": "5.7.2",
   "description": "gather / export prometheus metrics easily in nodejs",
   "main": "out/index.js",
+  "types": "out/index.d.ts",
   "scripts": {
     "test": "npm run lint && npm run prepare && TS_NODE_FILES=true mocha --exit -r ts-node/register test/*.spec.ts",
     "build": "npx tsc --project ./tsconfig.build.json",
