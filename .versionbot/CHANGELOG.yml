@@ -1,4 +1,16 @@
 - commits:
+    - subject: Export metrics instance from global for a reliable singleton
+      hash: 944fb94b80c3ee6e4710b556a32024f0f20953f1
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Thomas Manning <thomasm@balena.io>
+        signed-off-by: Thomas Manning <thomasm@balena.io>
+      author: Thomas Manning
+  version: 5.8.0
+  date: 2020-09-26T17:22:46.535Z
+- commits:
     - subject: Fix missing types reference in package.json
       hash: b702bdba705f6db1f0032ae4eb105f5e6331f464
       body: ''
