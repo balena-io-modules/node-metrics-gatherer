@@ -5,7 +5,7 @@
   "main": "out/index.js",
   "types": "out/index.d.ts",
   "scripts": {
-    "test": "npm run lint && npm run prepare && TS_NODE_FILES=true mocha --exit -r ts-node/register/transpile-only test/*.spec.ts",
+    "test": "npm run lint && npm run prepare && mocha --exit -r ts-node/register/transpile-only test/*.spec.ts",
     "build": "npx tsc --project ./tsconfig.build.json",
     "prettify": "balena-lint --fix src/ test/",
     "lint:typescript": "balena-lint src/ test/ && tsc --noEmit",

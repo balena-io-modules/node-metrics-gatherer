@@ -102,14 +102,15 @@ export class MetricsGatherer {
 			// ensure either that this metric already exists, or if not
 			// create either a counter if `_total` suffix is found, or
 			// a gauge otherwise
-			const kind = /.+_total$/.test(name) ? 'counter' : 'gauge';
+			const kind =
+				this.meta[name]?.kind ?? (/.+_total$/.test(name) ? 'counter' : 'gauge');
 			this.ensureExists(kind, name, labels);
 			if (!this.checkMetricType(name, ['gauge', 'counter'])) {
 				throw new MetricsGathererError(
 					`Tried to increment non-gauge, non-counter metric ${name}`,
 				);
 			}
-			if (this.meta[name].kind === 'gauge') {
+			if (kind === 'gauge') {
 				this.metrics.gauge[name].inc(labels, val);
 			} else {
 				this.metrics.counter[name].inc(labels, val);
@@ -202,7 +203,7 @@ export class MetricsGatherer {
 		}
 	}
 
-	public exists(name: string) {
+	public exists(name: string): boolean {
 		return this.getMetric(name) != null;
 	}
 
@@ -213,35 +214,31 @@ export class MetricsGatherer {
 		labels: LabelSet = {},
 		customParams: CustomParams = {},
 	) {
-		try {
-			// if exists, bail early
-			if (this.exists(name)) {
-				return;
-			}
-			// if no meta, describe by default to satisfy prometheus
-			if (!this.meta[name]) {
-				this.describe[kind](name, `undescribed ${kind} metric`, {
-					labelNames: Object.keys(labels),
-					...customParams,
-				});
-			} else if (this.meta[name].kind !== kind) {
-				// if name already associated with another kind, throw error
-				throw new MetricsGathererError(
-					`tried to use ${name} twice - first as ` +
-						`${this.meta[name].kind}, then as ${kind}`,
-				);
-			}
-			// create prometheus.Metric instance
-			this.metrics[kind][name] = constructors[kind].create({
-				name,
-				help: this.meta[name].help,
+		// if exists, bail early
+		if (this.metrics[kind][name] != null) {
+			return;
+		}
+		// if no meta, describe by default to satisfy prometheus
+		if (!this.meta[name]) {
+			this.describe[kind](name, `undescribed ${kind} metric`, {
 				labelNames: Object.keys(labels),
 				...customParams,
-				...this.meta[name].customParams,
 			});
-		} catch (e) {
-			this.err(e);
+		} else if (this.meta[name].kind !== kind) {
+			// if name already associated with another kind, throw error
+			throw new MetricsGathererError(
+				`tried to use ${name} twice - first as ` +
+					`${this.meta[name].kind}, then as ${kind}`,
+			);
 		}
+		// create prometheus.Metric instance
+		this.metrics[kind][name] = constructors[kind].create({
+			name,
+			help: this.meta[name].help,
+			labelNames: Object.keys(labels),
+			...customParams,
+			...this.meta[name].customParams,
+		});
 	}
 
 	// reset the metrics or only a given metric if name supplied
