@@ -79,7 +79,7 @@ export const collectAPIMetrics = (
 				? 'aborted'
 				: 'completed';
 			req._metrics_gatherer.labels.statusCode = res.statusCode || '';
-			onFinishFuncs.forEach(f => f());
+			onFinishFuncs.forEach((f) => f());
 		});
 		next();
 	};

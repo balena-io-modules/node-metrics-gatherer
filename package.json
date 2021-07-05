@@ -5,10 +5,10 @@
   "main": "out/index.js",
   "types": "out/index.d.ts",
   "scripts": {
-    "test": "npm run lint && npm run prepare && TS_NODE_FILES=true mocha --exit -r ts-node/register test/*.spec.ts",
+    "test": "npm run lint && npm run prepare && TS_NODE_FILES=true mocha --exit -r ts-node/register/transpile-only test/*.spec.ts",
     "build": "npx tsc --project ./tsconfig.build.json",
-    "prettify": "resin-lint --typescript --fix src/ test/",
-    "lint:typescript": "resin-lint --typescript src/ test/ && tsc --noEmit",
+    "prettify": "balena-lint --fix src/ test/",
+    "lint:typescript": "balena-lint src/ test/ && tsc --noEmit",
     "prepare": "npm run build",
     "lint": "npm run lint:typescript"
   },
@@ -19,26 +19,27 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/debug": "^4.1.5",
-    "@types/express": "^4.17.2",
+    "@types/debug": "^4.1.6",
+    "@types/express": "^4.17.12",
     "@types/on-finished": "^2.3.1",
-    "debug": "^4.1.1",
+    "debug": "^4.3.2",
     "express": "^4.17.1",
     "on-finished": "^2.3.0",
     "prom-client": "^12.0.0",
-    "typed-error": "^3.2.0"
+    "typed-error": "^3.2.1"
   },
   "devDependencies": {
-    "@types/chai": "^4.2.9",
-    "@types/mocha": "^7.0.1",
-    "chai": "^4.2.0",
+    "@balena/lint": "^6.1.1",
+    "@types/chai": "^4.2.19",
+    "@types/chai-http": "^4.2.0",
+    "@types/mocha": "^8.2.2",
+    "chai": "^4.3.4",
     "chai-http": "^4.3.0",
-    "husky": "^4.2.3",
-    "lint-staged": "^10.0.7",
-    "mocha": "^7.0.1",
-    "resin-lint": "^3.3.0",
-    "ts-node": "^8.6.2",
-    "typescript": "^3.8.2"
+    "husky": "^4.3.8",
+    "lint-staged": "^11.0.0",
+    "mocha": "^8.4.0",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.3.5"
   },
   "husky": {
     "hooks": {
