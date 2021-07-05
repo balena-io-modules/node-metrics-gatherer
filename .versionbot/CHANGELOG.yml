@@ -1,4 +1,25 @@
 - commits:
+    - subject: Improve typings
+      hash: 5ab71bb9957254eb1e20687e57215d1c41e8d5c1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+    - subject: Respect the expected kind when checking for existence in `ensureExists`
+      hash: 626bc46d169856321990b94db9ef75b74920ee3f
+      body: |
+        This avoids a potential issue where the metric name was created for a
+        different metric kind and would be treated as existing but accessing it
+        would fail. This should also be more performant due to avoiding the
+        need for the indirect lookups
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 5.7.5
+  date: 2021-07-05T15:49:10.410Z
+- commits:
     - subject: Enable strict tsconfig options by default
       hash: 59ff465312b1fe660d7347d1118988f3ebdab233
       body: ''
