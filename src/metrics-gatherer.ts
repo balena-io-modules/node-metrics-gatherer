@@ -9,7 +9,6 @@ import { collectAPIMetrics } from './collectors/api/collect';
 
 import {
 	AuthTestFunc,
-	ConstructorMap,
 	CustomParams,
 	Kind,
 	LabelSet,
@@ -20,7 +19,7 @@ import {
 
 export class MetricsGathererError extends TypedError {}
 
-const constructors: ConstructorMap = {
+const constructors = {
 	gauge: new MetricConstructor(prometheus.Gauge),
 	counter: new MetricConstructor(prometheus.Counter),
 	summary: new MetricConstructor(prometheus.Summary),
@@ -40,12 +39,11 @@ export class MetricsGatherer {
 	public meta: MetricsMetaMap;
 	private metrics: MetricsMap;
 	public describe: Describer;
-	public client: any;
+	public client = prometheus;
 
 	constructor() {
 		this.initState();
 		this.setupDescribe();
-		this.client = prometheus;
 	}
 
 	private initState() {
