@@ -5,7 +5,7 @@ import { exponentialBuckets } from 'prom-client';
 export const latencyBuckets =
 	process.env['NODE_METRICS_GATHERER_LATENCY_BUCKETS']
 		?.split(',')
-		.map(s => parseInt(s, 10)) ??
+		.map((s) => parseInt(s, 10)) ??
 	exponentialBuckets(0.004, Math.SQRT2, 29).map(Math.round);
 
 // from 256 bytes up to 4GB, sqrt2 factor
@@ -13,5 +13,5 @@ export const latencyBuckets =
 export const bytesRWBuckets =
 	process.env['NODE_METRICS_GATHERER_BYTES_RW_BUCKETS']
 		?.split(',')
-		.map(s => parseInt(s, 10)) ??
+		.map((s) => parseInt(s, 10)) ??
 	exponentialBuckets(256, Math.SQRT2, 49).map(Math.round);

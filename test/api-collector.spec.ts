@@ -31,7 +31,7 @@ describe('API metrics', () => {
 		server.close();
 	});
 
-	it('should report all metrics after 1 request', done => {
+	it('should report all metrics after 1 request', (done) => {
 		requester
 			.post('/echo')
 			.type('json')
@@ -46,7 +46,7 @@ describe('API metrics', () => {
 					/api_bytes_written_bucket{le="\+Inf",state="completed",statusCode="200"} 1/,
 					/api_latency_milliseconds_count{state="completed",statusCode="200"} 1/,
 				];
-				metricsRegexps.forEach(re => {
+				metricsRegexps.forEach((re) => {
 					expect(re.test(output)).to.be.true;
 				});
 				done();

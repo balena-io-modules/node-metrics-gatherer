@@ -1,5 +1,5 @@
 {
   "extends": [
-    "resin-lint/config/tslint-prettier.json"
+    "@balena/lint/config/tslint-prettier.json"
   ]
 }
