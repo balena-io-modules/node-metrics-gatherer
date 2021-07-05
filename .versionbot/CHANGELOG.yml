@@ -1,4 +1,21 @@
 - commits:
+    - subject: Enable strict tsconfig options by default
+      hash: 59ff465312b1fe660d7347d1118988f3ebdab233
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+    - subject: Update dependencies
+      hash: 0d08cebe5dd4448ffbb31ba8de615d6dadf37a9a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 5.7.4
+  date: 2021-07-05T14:02:38.058Z
+- commits:
     - subject: Fix missing types reference in package.json
       hash: b702bdba705f6db1f0032ae4eb105f5e6331f464
       body: ''
