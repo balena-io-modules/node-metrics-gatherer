@@ -311,9 +311,9 @@ export class MetricsGatherer {
 	}
 
 	// get the prometheus output
-	public output(): string {
+	public async output(): Promise<string> {
 		try {
-			return prometheus.register.metrics();
+			return await prometheus.register.metrics();
 		} catch (e) {
 			this.err(e);
 			return '';
