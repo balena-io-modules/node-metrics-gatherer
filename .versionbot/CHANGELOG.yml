@@ -1,7 +1,18 @@
 - commits:
+    - subject: Update dependencies
+      hash: 0a8aefe639904a36cf3608f6aebc8a2c7bd9a25b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 5.7.6
+  title: "'Update dependencies'"
+  date: 2022-04-05T14:43:06.093Z
+- commits:
     - subject: Improve typings
       hash: 5ab71bb9957254eb1e20687e57215d1c41e8d5c1
-      body: ''
+      body: ""
       footer:
         Change-type: patch
         change-type: patch
@@ -22,14 +33,14 @@
 - commits:
     - subject: Enable strict tsconfig options by default
       hash: 59ff465312b1fe660d7347d1118988f3ebdab233
-      body: ''
+      body: ""
       footer:
         Change-type: patch
         change-type: patch
       author: Pagan Gazzard
     - subject: Update dependencies
       hash: 0d08cebe5dd4448ffbb31ba8de615d6dadf37a9a
-      body: ''
+      body: ""
       footer:
         Change-type: patch
         change-type: patch
@@ -39,7 +50,7 @@
 - commits:
     - subject: Fix missing types reference in package.json
       hash: b702bdba705f6db1f0032ae4eb105f5e6331f464
-      body: ''
+      body: ""
       footer:
         Change-type: patch
         change-type: patch
@@ -51,7 +62,7 @@
 - commits:
     - subject: revert 5.7.1 - should have been semver major
       hash: 47e939c0fe0ffe9be9003a7d81913de099b3f7d4
-      body: ''
+      body: ""
       footer:
         Change-type: patch
         change-type: patch
@@ -63,7 +74,7 @@
 - commits:
     - subject: api latency in seconds
       hash: 46b778ff3f1c6b2af719e980f917f1b534cc56fd
-      body: ''
+      body: ""
       footer:
         Change-type: patch
         change-type: patch
@@ -75,16 +86,16 @@
 - commits:
     - subject: export constructor for non-process-global usage
       hash: 19e6d43a20bbe9271fc741d5a6222cce3e6c7d06
-      body: ''
+      body: ""
       footer:
         Change-type: minor
         change-type: minor
         Signed-off-by: dt-rush <nickp@balena.io>
         signed-off-by: dt-rush <nickp@balena.io>
       author: dt-rush
-    - subject: 'process.hrtime [0] returns *seconds*, not ms, so patch to timing logic'
+    - subject: process.hrtime [0] returns *seconds*, not ms, so patch to timing logic
       hash: b4be91210e720fa60d9b7f681262abae4be680d8
-      body: ''
+      body: ""
       footer:
         Change-type: patch
         change-type: patch
@@ -96,7 +107,7 @@
 - commits:
     - subject: comprehensive refactor / cleanup of API metrics gathering
       hash: 3c53896e607eeea2811772db9dc303ea8cb020a9
-      body: ''
+      body: ""
       footer:
         Change-type: minor
         change-type: minor
@@ -106,9 +117,9 @@
   version: 5.6.0
   date: 2020-04-23T04:12:25.641Z
 - commits:
-    - subject: 'exportOn() to have default path /metrics, requiring only port'
+    - subject: exportOn() to have default path /metrics, requiring only port
       hash: e5fa4bc8c6a93d24b23de32107c8d2396fca6543
-      body: ''
+      body: ""
       footer:
         Change-type: minor
         change-type: minor
@@ -118,11 +129,10 @@
   version: 5.5.0
   date: 2020-04-23T03:42:27.804Z
 - commits:
-    - subject: >-
-        expose underlying client so underlying original functions are still
+    - subject: expose underlying client so underlying original functions are still
         available if our semantics are different
       hash: 1e0a8799370d670b6c49921666c2cd0f702a46b2
-      body: ''
+      body: ""
       footer:
         Change-type: minor
         change-type: minor
@@ -134,7 +144,7 @@
 - commits:
     - subject: add simpler export method exportOn()
       hash: 8bef15d5bf14cacd6f860f4ff25491984e20f0dd
-      body: ''
+      body: ""
       footer:
         Change-type: minor
         change-type: minor
@@ -146,7 +156,7 @@
 - commits:
     - subject: add behaviour to auto-detect a counter based on _total suffix
       hash: 7b6933fdb4fbe5bb49ef72d0b0e1e21e01566f5e
-      body: ''
+      body: ""
       footer:
         Change-type: patch
         change-type: patch
@@ -158,16 +168,16 @@
 - commits:
     - subject: use declaration files in testing / building
       hash: 0485e0e681fd9e90e2f4cd6f571af757e343df3a
-      body: ''
+      body: ""
       footer:
         Change-type: patch
         change-type: patch
         Signed-off-by: dt-rush <nickp@balena.io>
         signed-off-by: dt-rush <nickp@balena.io>
       author: dt-rush
-    - subject: 'measure generic, useful express API metrics by a method'
+    - subject: measure generic, useful express API metrics by a method
       hash: c01f44a23ad29b0b13da9171cdbfca28a586acc0
-      body: ''
+      body: ""
       footer:
         Change-type: minor
         change-type: minor
@@ -179,7 +189,7 @@
 - commits:
     - subject: collectDefaultMetrics passthrough method
       hash: 268f7da055a56fae0545f81e02336f85b13ab4f0
-      body: ''
+      body: ""
       footer:
         Change-type: minor
         change-type: minor
@@ -191,7 +201,7 @@
 - commits:
     - subject: Update prom-client to 12.x
       hash: 5b84f63caeb9954ba4e40c0c9a2a6fa09bcc9926
-      body: ''
+      body: ""
       footer:
         Change-type: major
         change-type: major
@@ -201,7 +211,7 @@
 - commits:
     - subject: Update dependencies and use standard linting
       hash: 982fe061c438c104ddaa22c03dd4915641c09515
-      body: ''
+      body: ""
       footer:
         Change-type: patch
         change-type: patch
@@ -211,7 +221,7 @@
 - commits:
     - subject: Avoid unnecessarily serialising the stack trace
       hash: e37a45b53a1ad28e247fa00c5cd595cc0db1f57e
-      body: ''
+      body: ""
       footer:
         Change-type: patch
         change-type: patch
@@ -219,16 +229,15 @@
   version: 4.0.1
   date: 2019-10-10T18:21:37.743Z
 - commits:
-    - subject: >-
-        explicit typing of metrics at describe time, simplified metrics metadata
-        handling, improve single-line summary/histogram
+    - subject: explicit typing of metrics at describe time, simplified metrics
+        metadata handling, improve single-line summary/histogram
       hash: d3a3f84069d6e41e6e4b5dec9c8075e2a407ba04
-      body: ''
+      body: ""
       footer:
         Change-type: Major
         change-type: Major
-        Connects-to: '#30'
-        connects-to: '#30'
+        Connects-to: "#30"
+        connects-to: "#30"
         Signed-off-by: Nick Payne <nickp@balena.io>
         signed-off-by: Nick Payne <nickp@balena.io>
       author: dt-rush
@@ -237,7 +246,7 @@
 - commits:
     - subject: add diagram to README
       hash: 8e6c99a91062388ff96ad00d09b6ee6c010f5d28
-      body: ''
+      body: ""
       footer:
         Change-type: patch
         change-type: patch
@@ -249,7 +258,7 @@
 - commits:
     - subject: error-protect all class methods
       hash: 01b5ab84e514c3a6f9289425cc8e2f097913a143
-      body: ''
+      body: ""
       footer:
         Change-type: patch
         change-type: patch
@@ -272,7 +281,7 @@
 - commits:
     - subject: Fix build output
       hash: e924f0cfb4e7ef637453375fcd0220f58d6d8dd5
-      body: ''
+      body: ""
       footer:
         Change-type: patch
         change-type: patch
@@ -282,32 +291,31 @@
 - commits:
     - subject: add linting/prettifier/husky
       hash: 56d844b9addd083124c766e1fe6d6c7d9defeecd
-      body: ''
+      body: ""
       footer:
         Change-type: patch
         change-type: patch
         Signed-off-by: Nick Payne <nickp@balena.io>
         signed-off-by: Nick Payne <nickp@balena.io>
       author: dt-rush
-    - subject: 'refactor import / module structure, add AggregatorStrategy enum'
+    - subject: refactor import / module structure, add AggregatorStrategy enum
       hash: af616e905a1446f2ad7e7db2b2471acb35ab0961
-      body: ''
+      body: ""
       footer:
         Change-type: patch
         change-type: patch
         Signed-off-by: Nick Payne <nickp@balena.io>
         signed-off-by: Nick Payne <nickp@balena.io>
       author: dt-rush
-    - subject: >-
-        support user specification of alternate aggregation strategies for
+    - subject: support user specification of alternate aggregation strategies for
         clustered metrics
       hash: b7e878ec55ce7ccef9689d1d3f47ee4ff89be85a
-      body: ''
+      body: ""
       footer:
         Change-type: minor
         change-type: minor
-        Connects-to: '#23'
-        connects-to: '#23'
+        Connects-to: "#23"
+        connects-to: "#23"
         Signed-off-by: Nick Payne <nickp@balena.io>
         signed-off-by: Nick Payne <nickp@balena.io>
       author: dt-rush
@@ -316,43 +324,42 @@
 - commits:
     - subject: added warning to README about metrics.describe() in cluster master
       hash: 30bcd5632588f9427d2ba6aaa96279e4b255b96a
-      body: ''
+      body: ""
       footer:
         Change-type: patch
         change-type: patch
-        Connects-to: '#25'
-        connects-to: '#25'
+        Connects-to: "#25"
+        connects-to: "#25"
         Signed-off-by: Nick Payne <nickp@balena.io>
         signed-off-by: Nick Payne <nickp@balena.io>
       author: dt-rush
   version: 2.3.1
   date: 2019-04-15T15:25:11.912Z
 - commits:
-    - subject: 'fix gauge metrics, add clear() method, add inc(), dec() methods'
+    - subject: fix gauge metrics, add clear() method, add inc(), dec() methods
       hash: 805a0a3ea55f7f242981fa218c420daad441e0c8
-      body: ''
+      body: ""
       footer:
         Change-type: minor
         change-type: minor
-        Connects-to: '#27'
-        connects-to: '#27'
+        Connects-to: "#27"
+        connects-to: "#27"
         Signed-off-by: Nick Payne <nickp@balena.io>
         signed-off-by: Nick Payne <nickp@balena.io>
       author: dt-rush
   version: 2.3.0
   date: 2019-04-11T16:10:19.244Z
 - commits:
-    - subject: >-
-        removed package-lock.json, out/ directory, added "prepare" in
+    - subject: removed package-lock.json, out/ directory, added "prepare" in
         package.json, some minor bugfixes in index.ts, labeled dev dependencies
         in package.json
       hash: 58d04091af295d2ed5058f6ab7ad5fee05b15ea5
-      body: ''
+      body: ""
       footer:
         Change-type: patch
         change-type: patch
-        Connects-to: '#21'
-        connects-to: '#21'
+        Connects-to: "#21"
+        connects-to: "#21"
         Signed-off-by: Nick Payne <nickp@balena.io>
         signed-off-by: Nick Payne <nickp@balena.io>
       author: dt-rush
@@ -361,12 +368,12 @@
 - commits:
     - subject: added aggregate request handler using prom-client's AggregatorRegistry
       hash: 13c7f6033587f6f380f28bb348df2f46dfbfd9e6
-      body: ''
+      body: ""
       footer:
         Change-type: minor
         change-type: minor
-        Connects-to: '#19'
-        connects-to: '#19'
+        Connects-to: "#19"
+        connects-to: "#19"
         Signed-off-by: Nick Payne <nickp@balena.io>
         signed-off-by: Nick Payne <nickp@balena.io>
       author: dt-rush
@@ -375,7 +382,7 @@
 - commits:
     - subject: build output (really should be automated)
       hash: 144a9fb07cdb30982b485dc20cb501ebca7fd3a6
-      body: ''
+      body: ""
       footer:
         Change-type: patch
         change-type: patch
@@ -387,7 +394,7 @@
 - commits:
     - subject: added histogramSummary convenience method
       hash: fd3b4ac3ee4b2f478e66df4aeab7800ab9ccfb11
-      body: ''
+      body: ""
       footer:
         Change-type: minor
         change-type: minor
@@ -397,11 +404,10 @@
   version: 2.1.0
   date: 2019-03-20T14:56:54.231Z
 - commits:
-    - subject: >-
-        renamed percentile to summary (to match prometheus, why differ from
+    - subject: renamed percentile to summary (to match prometheus, why differ from
         it?), also improved README
       hash: 293bc4495c9145566c5a4cafd266296c85650611
-      body: ''
+      body: ""
       footer:
         Change-type: major
         change-type: major
@@ -411,9 +417,9 @@
   version: 2.0.0
   date: 2019-03-18T06:52:33.656Z
 - commits:
-    - subject: 'versionbot: Add CHANGELOG.yml (for nested changelogs)'
+    - subject: "versionbot: Add CHANGELOG.yml (for nested changelogs)"
       hash: 6723fe3d76c9f1d99bd91bfaf0886f006d5b1570
-      body: ''
+      body: ""
       footer:
         Change-type: patch
         change-type: patch
@@ -424,51 +430,51 @@
   date: 2019-03-14T13:25:09.885Z
 - commits:
     - author: dt-rush
-      body: ''
+      body: ""
       footers:
         change-type: minor
         signed-off-by: Nick Payne <nickp@balena.io>
       hash: e031cbe0d0c6c3aa24878eda191f1dbeef484fe0
-      subject: 'added single-line syntax (no description, or default description)'
-  date: '2019-02-12T02:50:07Z'
+      subject: added single-line syntax (no description, or default description)
+  date: 2019-02-12T02:50:07Z
   version: 1.1.0
 - commits:
     - author: dt-rush
-      body: ''
+      body: ""
       footers:
         change-type: patch
         signed-off-by: Nick Payne <nickp@balena.io>
       hash: 9656637b2241d8ea078bdf5bb6d1bf4d25544012
       subject: fix sending 403 on not-authed
-  date: '2019-02-06T19:26:18Z'
+  date: 2019-02-06T19:26:18Z
   version: 1.0.6
 - commits:
     - author: Giovanni Garufi
-      body: ''
+      body: ""
       footers:
         change-type: patch
         signed-off-by: Giovanni Garufi <giovanni@balena.io>
       hash: 451c8e913c2e3903de3a64b3bb128cb8a59c128d
       subject: Restore changelog and deleted circle.yml
-  date: '2019-01-24T21:10:11Z'
+  date: 2019-01-24T21:10:11Z
   version: 1.0.5
 - commits:
     - author: dt-rush
-      body: ''
+      body: ""
       footers:
         change-type: patch
         signed-off-by: Nick Payne <nickp@balena.io>
       hash: 64af530877da86db2bc0ff76631fb360fcb62dd9
       subject: fixed support for labels
-  date: '2019-01-24T02:31:20Z'
+  date: 2019-01-24T02:31:20Z
   version: 1.0.4
 - commits:
     - author: Giovanni Garufi
-      body: ''
+      body: ""
       footers:
         change-type: patch
         signed-off-by: Giovanni Garufi <giovanni@balena.io>
       hash: 2c761f57bc762eec6d19bb8a81e3282060525949
       subject: add CHANGELOG.md
-  date: '2019-01-23T18:10:30Z'
+  date: 2019-01-23T18:10:30Z
   version: 1.0.3
