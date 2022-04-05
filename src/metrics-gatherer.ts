@@ -330,7 +330,7 @@ export class MetricsGatherer {
 		}
 	}
 
-	private err(e: Error) {
+	private err(e: unknown) {
 		debug(e);
 		this.internalErrorCount++;
 	}
