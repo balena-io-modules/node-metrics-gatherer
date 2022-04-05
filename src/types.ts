@@ -1,7 +1,7 @@
-import * as express from 'express';
-import * as prometheus from 'prom-client';
+import type * as express from 'express';
+import type * as prometheus from 'prom-client';
 
-import { AggregatorStrategy } from './enums';
+import type { AggregatorStrategy } from './enums';
 
 export interface LabelSet {
 	[name: string]: string;
