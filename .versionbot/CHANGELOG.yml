@@ -1,4 +1,15 @@
 - commits:
+    - subject: Update prom-client to 14.x
+      hash: 81a8d36fa6c62c5dfec892a4a0c17f8596bd5873
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+      author: Pagan Gazzard
+  version: 6.0.0
+  title: "'Update prom-client to 14.x'"
+  date: 2022-04-05T14:58:33.322Z
+- commits:
     - subject: Update dependencies
       hash: 0a8aefe639904a36cf3608f6aebc8a2c7bd9a25b
       body: ""
