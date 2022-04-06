@@ -269,12 +269,12 @@ export class MetricsGatherer {
 
 	// create an express request handler given an auth test function
 	public requestHandler(authTest?: AuthTestFunc): express.Handler {
-		return (req: express.Request, res: express.Response) => {
+		return async (req: express.Request, res: express.Response) => {
 			if (authTest && !authTest(req)) {
 				return res.status(403).send();
 			}
 			res.writeHead(200, { 'Content-Type': 'text/plain' });
-			res.end(prometheus.register.metrics());
+			res.end(await prometheus.register.metrics());
 		};
 	}
 
