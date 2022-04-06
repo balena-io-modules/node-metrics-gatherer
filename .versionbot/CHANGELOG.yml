@@ -1,4 +1,17 @@
 - commits:
+    - subject: Add missing await
+      hash: 97ed30f9cc16c2350e3c0233d5024e8a70db9431
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 6.0.1
+  title: "'Add missing await'"
+  date: 2022-04-06T02:08:06.136Z
+- commits:
     - subject: Update prom-client to 14.x
       hash: 81a8d36fa6c62c5dfec892a4a0c17f8596bd5873
       body: ""
