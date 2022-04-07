@@ -282,20 +282,18 @@ export class MetricsGatherer {
 	// suitable for use in a context where we're using node's `cluster` module
 	public aggregateRequestHandler(authTest?: AuthTestFunc): express.Handler {
 		const aggregatorRegistry = new prometheus.AggregatorRegistry();
-		return (req, res) => {
+		return async (req, res) => {
 			if (authTest && !authTest(req)) {
 				return res.status(403).send();
 			}
-			aggregatorRegistry
-				.clusterMetrics()
-				.then((metrics: string) => {
-					res.set('Content-Type', aggregatorRegistry.contentType);
-					res.send(metrics);
-				})
-				.catch((err: Error) => {
-					this.err(err);
-					res.status(500).send();
-				});
+			try {
+				const metrics = await aggregatorRegistry.clusterMetrics();
+				res.set('Content-Type', aggregatorRegistry.contentType);
+				res.send(metrics);
+			} catch (err) {
+				this.err(err);
+				res.status(500).send();
+			}
 		};
 	}
 
