@@ -1,4 +1,15 @@
 - commits:
+    - subject: Use async/await for aggregateRequestHandler
+      hash: acd097834fbee00ae4f77582b8be14bc7348f5f4
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 6.0.2
+  title: "'Use async/await for aggregateRequestHandler'"
+  date: 2022-04-07T13:23:55.631Z
+- commits:
     - subject: Add missing await
       hash: 97ed30f9cc16c2350e3c0233d5024e8a70db9431
       body: ""
