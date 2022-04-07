@@ -278,8 +278,11 @@ export class MetricsGatherer {
 		};
 	}
 
-	// create an express request handler given an auth test function which is
-	// suitable for use in a context where we're using node's `cluster` module
+	/**
+	 * Create an express request handler given an auth test function which is suitable
+	 * for use in a context where we're using node's `cluster` module.
+	 * Note: This *must* be paired with an `aggregateRequestWorker()` call on all workers
+	 */
 	public aggregateRequestHandler(authTest?: AuthTestFunc): express.Handler {
 		const aggregatorRegistry = new prometheus.AggregatorRegistry();
 		return async (req, res) => {
@@ -295,6 +298,11 @@ export class MetricsGatherer {
 				res.status(500).send();
 			}
 		};
+	}
+	public aggregateRequestWorker(): void {
+		// Ensure the worker listener is registered by instantiating the class
+		// tslint:disable-next-line:no-unused-expression-chai
+		new prometheus.AggregatorRegistry();
 	}
 
 	// collect default metrics (underlying prom-client)
