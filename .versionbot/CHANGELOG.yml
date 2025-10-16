@@ -1,4 +1,15 @@
 - commits:
+    - subject: Simplify check for the `_total` suffix
+      hash: 0876d476b4d2244b11dcab9cf6c26dafd42ce5ab
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 6.0.5
+  title: ""
+  date: 2025-10-16T16:29:09.286Z
+- commits:
     - subject: Update dev dependencies
       hash: 8ba69f4cad2b51c018e51e78f8df23de9f672bdf
       body: ""
