@@ -1,4 +1,15 @@
 - commits:
+    - subject: Update to prom-client 15.x
+      hash: 1791a4e229c522f308e47a5ee497744065ecffaa
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Pagan Gazzard
+  version: 6.1.0
+  title: ""
+  date: 2025-10-16T16:45:37.812Z
+- commits:
     - subject: Simplify check for the `_total` suffix
       hash: 0876d476b4d2244b11dcab9cf6c26dafd42ce5ab
       body: ""
