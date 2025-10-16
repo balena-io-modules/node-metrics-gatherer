@@ -7,15 +7,15 @@ const debug = Debug('node-metrics-gatherer');
 
 import { collectAPIMetrics } from './collectors/api/collect';
 
-import {
+import type {
 	AuthTestFunc,
 	CustomParams,
 	Kind,
 	LabelSet,
-	MetricConstructor,
 	MetricsMap,
 	MetricsMetaMap,
 } from './types';
+import { MetricConstructor } from './types';
 
 export class MetricsGathererError extends TypedError {}
 
@@ -95,7 +95,7 @@ export class MetricsGatherer {
 	}
 
 	// increment a counter or gauge
-	public inc(name: string, val: number = 1, labels: LabelSet = {}) {
+	public inc(name: string, val = 1, labels: LabelSet = {}) {
 		try {
 			// ensure either that this metric already exists, or if not
 			// create either a counter if `_total` suffix is found, or
@@ -119,7 +119,7 @@ export class MetricsGatherer {
 	}
 
 	// decrement a gauge
-	public dec(name: string, val: number = 1, labels: LabelSet = {}) {
+	public dec(name: string, val = 1, labels: LabelSet = {}) {
 		try {
 			// ensure either that this metric already exists, or if not, create a gauge
 			this.ensureExists('gauge', name, labels);
@@ -135,7 +135,7 @@ export class MetricsGatherer {
 	}
 
 	// observe a counter metric
-	public counter(name: string, val: number = 1, labels: LabelSet = {}) {
+	public counter(name: string, val = 1, labels: LabelSet = {}) {
 		try {
 			this.ensureExists('counter', name, labels);
 			this.metrics.counter[name].inc(labels, val);
@@ -259,7 +259,7 @@ export class MetricsGatherer {
 	// requesthandler
 	public exportOn(
 		port: number,
-		path: string = '/metrics',
+		path = '/metrics',
 		requestHandler?: express.Handler,
 	) {
 		const app = express();

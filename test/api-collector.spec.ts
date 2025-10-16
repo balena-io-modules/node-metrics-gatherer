@@ -1,6 +1,7 @@
 // TODO
 import * as chai from 'chai';
 import { expect } from 'chai';
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 import chaiHttp = require('chai-http');
 import 'mocha';
 
@@ -18,7 +19,7 @@ describe('API metrics', () => {
 		.post('/echo', (req: express.Request, res: express.Response) => {
 			res.send(req.body);
 		});
-	const server = app.listen(process.env.PORT || 3001);
+	const server = app.listen(process.env.PORT ?? 3001);
 
 	const requester = chai.request(app).keepOpen();
 
