@@ -101,7 +101,8 @@ export class MetricsGatherer {
 			// create either a counter if `_total` suffix is found, or
 			// a gauge otherwise
 			const kind =
-				this.meta[name]?.kind ?? (/.+_total$/.test(name) ? 'counter' : 'gauge');
+				this.meta[name]?.kind ??
+				(name.endsWith('_total') ? 'counter' : 'gauge');
 			this.ensureExists(kind, name, labels);
 			if (!this.checkMetricType(name, ['gauge', 'counter'])) {
 				throw new MetricsGathererError(
