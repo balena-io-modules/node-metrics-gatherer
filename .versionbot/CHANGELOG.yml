@@ -1,4 +1,15 @@
 - commits:
+    - subject: Update dev dependencies
+      hash: 8ba69f4cad2b51c018e51e78f8df23de9f672bdf
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 6.0.4
+  title: ""
+  date: 2025-10-16T16:22:47.165Z
+- commits:
     - subject: Add an `aggregateRequestWorker` that must be called on cluster workers
       hash: 76b12cdc4d8316e8e976959fac06e5513e031158
       body: ""
