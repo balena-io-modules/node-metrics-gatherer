@@ -1,4 +1,4 @@
-import { MetricsGatherer } from '../../metrics-gatherer';
+import type { MetricsGatherer } from '../../metrics-gatherer';
 
 import { bytesRWBuckets, latencyBuckets } from '../../config';
 

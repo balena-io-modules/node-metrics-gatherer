@@ -33,13 +33,13 @@ describe('MetricsGatherer', () => {
 		it('should create a gauge on inc() for undescribed metric', async () => {
 			metrics.inc('undescribed_gauge', 10);
 			const output = await metrics.output();
-			expect(/TYPE undescribed_gauge gauge/.test(output)).to.be.true;
+			expect(output.includes('TYPE undescribed_gauge gauge')).to.be.true;
 		});
 
 		it('should not create a gauge, but a counter, if _total suffix found', async () => {
 			metrics.inc('build_error_total', 1);
 			const output = await metrics.output();
-			expect(/TYPE build_error_total counter/.test(output)).to.be.true;
+			expect(output.includes('TYPE build_error_total counter')).to.be.true;
 		});
 
 		it('should inc and dec by 1 by default', async () => {
@@ -47,15 +47,15 @@ describe('MetricsGatherer', () => {
 
 			metrics.inc('undescribed_gauge');
 			output = await metrics.output();
-			expect(/undescribed_gauge 1/.test(output)).to.be.true;
+			expect(output.includes('undescribed_gauge 1')).to.be.true;
 
 			metrics.inc('undescribed_gauge');
 			output = await metrics.output();
-			expect(/undescribed_gauge 2/.test(output)).to.be.true;
+			expect(output.includes('undescribed_gauge 2')).to.be.true;
 
 			metrics.dec('undescribed_gauge');
 			output = await metrics.output();
-			expect(/undescribed_gauge 1/.test(output)).to.be.true;
+			expect(output.includes('undescribed_gauge 1')).to.be.true;
 		});
 	});
 
@@ -67,7 +67,7 @@ describe('MetricsGatherer', () => {
 			);
 			metrics.counter('existent_counter');
 			const output = await metrics.output();
-			expect(/TYPE existent_counter counter/.test(output)).to.be.true;
+			expect(output.includes('TYPE existent_counter counter')).to.be.true;
 		});
 
 		it('should reset a counter', async () => {
@@ -78,14 +78,14 @@ describe('MetricsGatherer', () => {
 			metrics.counter('resetting_counter');
 			metrics.reset('resetting_counter');
 			const output = await metrics.output();
-			expect(/resetting_counter 0/.test(output)).to.be.true;
+			expect(output.includes('resetting_counter 0')).to.be.true;
 		});
 
 		it('should increment by 1 if not specified', async () => {
 			metrics.describe.counter('simple_counter', 'a simple counter');
 			metrics.counter('simple_counter');
 			const output = await metrics.output();
-			expect(/simple_counter 1/.test(output)).to.be.true;
+			expect(output.includes('simple_counter 1')).to.be.true;
 		});
 
 		it('should increment by a variable amount', async () => {
@@ -96,7 +96,7 @@ describe('MetricsGatherer', () => {
 			metrics.counter('variable_counter', 1);
 			metrics.inc('variable_counter', 3);
 			const output = await metrics.output();
-			expect(/variable_counter 4/.test(output)).to.be.true;
+			expect(output.includes('variable_counter 4')).to.be.true;
 		});
 
 		it('should throw an error on dec() to counter', () => {

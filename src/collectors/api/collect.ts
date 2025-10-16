@@ -1,7 +1,7 @@
-import { NextFunction, Request, Response } from 'express';
+import type { NextFunction, Request, Response } from 'express';
 import * as onFinished from 'on-finished';
 
-import { MetricsGatherer } from '../../metrics-gatherer';
+import type { MetricsGatherer } from '../../metrics-gatherer';
 import { describeAPIMetricsOnce } from './describe';
 
 export const collectAPIMetrics = (
@@ -16,9 +16,7 @@ export const collectAPIMetrics = (
 		req._metrics_gatherer = {
 			labels: {},
 		};
-		if (!req.connection._metrics_gatherer) {
-			req.connection._metrics_gatherer = {};
-		}
+		req.connection._metrics_gatherer ??= {};
 	};
 
 	// A specific sequence of steps is used to keep track of the changing values of
@@ -32,9 +30,9 @@ export const collectAPIMetrics = (
 	// bytesRead/bytesWritten by the last request to use the same net.Socket object.
 	const observeBytesRW = (req: Request): (() => void) => {
 		const bytesReadPreviously =
-			req.connection._metrics_gatherer!.bytesRead || 0;
+			req.connection._metrics_gatherer!.bytesRead ?? 0;
 		const bytesWrittenPreviously =
-			req.connection._metrics_gatherer!.bytesWritten || 0;
+			req.connection._metrics_gatherer!.bytesWritten ?? 0;
 		return () => {
 			const bytesReadDelta = req.connection.bytesRead - bytesReadPreviously;
 			const bytesWrittenDelta =
@@ -79,7 +77,9 @@ export const collectAPIMetrics = (
 				? 'aborted'
 				: 'completed';
 			req._metrics_gatherer.labels.statusCode = res.statusCode || '';
-			onFinishFuncs.forEach((f) => f());
+			onFinishFuncs.forEach((f) => {
+				f();
+			});
 		});
 		next();
 	};
