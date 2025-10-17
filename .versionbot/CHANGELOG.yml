@@ -1,4 +1,15 @@
 - commits:
+    - subject: Avoid closure for onFinish handlers
+      hash: 7eb4b51838a970f1629ed95d5bf82a700844a923
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 6.1.1
+  title: ""
+  date: 2025-10-17T15:20:25.285Z
+- commits:
     - subject: Update to prom-client 15.x
       hash: 1791a4e229c522f308e47a5ee497744065ecffaa
       body: ""
