@@ -1,8 +1,8 @@
-import * as express from 'express';
-import * as prometheus from 'prom-client';
+import express from 'express';
+import prometheus from 'prom-client';
 import { TypedError } from 'typed-error';
 
-import * as Debug from 'debug';
+import Debug from 'debug';
 const debug = Debug('node-metrics-gatherer');
 
 import { collectAPIMetrics } from './collectors/api/collect';

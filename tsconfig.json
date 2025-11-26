@@ -2,7 +2,7 @@
 	"compilerOptions": {
 		"declaration": true,
 		"outDir": "out",
-		"module": "commonjs",
+		"module": "node18",
 		"target": "es2015",
 		"strict": true,
 		"strictPropertyInitialization": false,
@@ -12,11 +12,7 @@
 		"removeComments": true,
 		"resolveJsonModule": true,
 		"sourceMap": true,
-		"skipLibCheck": true,
-		"lib": [
-			"es7",
-			"dom"
-		]
+		"skipLibCheck": true
 	},
 	"include": [
 		"src/**/*.ts",

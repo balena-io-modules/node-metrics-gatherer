@@ -3,6 +3,7 @@
   "version": "6.1.1",
   "description": "gather / export prometheus metrics easily in nodejs",
   "main": "out/index.js",
+  "type": "commonjs",
   "types": "out/index.d.ts",
   "scripts": {
     "test": "npm run lint && npm run prepare && mocha --exit -r ts-node/register/transpile-only test/*.spec.ts",

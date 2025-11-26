@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from 'express';
-import * as onFinished from 'on-finished';
+import onFinished from 'on-finished';
 
 import type { MetricsGatherer } from '../../metrics-gatherer';
 import { describeAPIMetricsOnce } from './describe';

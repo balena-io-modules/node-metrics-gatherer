@@ -1,12 +1,12 @@
 // TODO
-import * as chai from 'chai';
+import chai from 'chai';
 import { expect } from 'chai';
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 import chaiHttp = require('chai-http');
 import 'mocha';
 
 import { json } from 'body-parser';
-import * as express from 'express';
+import express from 'express';
 
 import { metrics } from '../src';
 
