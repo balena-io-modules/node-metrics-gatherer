@@ -1,4 +1,22 @@
 - commits:
+    - subject: Include comments in the generated output to keep jsdoc intact
+      hash: a2f651f1bcdd4b4078dc0e9c64d3fffc8843f581
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+    - subject: Switch tsconfig module to node18
+      hash: b0681292d3f20571c3af63cd509140682ac6f402
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 6.1.2
+  title: ""
+  date: 2025-11-27T00:11:21.642Z
+- commits:
     - subject: Avoid closure for onFinish handlers
       hash: 7eb4b51838a970f1629ed95d5bf82a700844a923
       body: ""
