@@ -1,5 +1,5 @@
-import type * as express from 'express';
-import type * as prometheus from 'prom-client';
+import type express from 'express';
+import type prometheus from 'prom-client';
 
 import type { AggregatorStrategy } from './enums';
 
