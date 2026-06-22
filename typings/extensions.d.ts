@@ -1,11 +1,13 @@
-/* tslint:disable-next-line:no-namespace */
-declare namespace Express {
-	export interface Request {
-		// missing from type signature exposed by @types/express
-		aborted: boolean;
-		_metrics_gatherer: {
-			labels?: import('./src/types').LabelSet;
-		};
+import type { LabelSet } from '../src/types';
+
+declare global {
+	/* tslint:disable-next-line:no-namespace */
+	namespace Express {
+		export interface Request {
+			_metrics_gatherer: {
+				labels: LabelSet;
+			};
+		}
 	}
 }
 
