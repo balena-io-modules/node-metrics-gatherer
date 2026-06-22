@@ -76,7 +76,9 @@ export const collectAPIMetrics = (
 			req._metrics_gatherer.labels.state = req.aborted
 				? 'aborted'
 				: 'completed';
-			req._metrics_gatherer.labels.statusCode = res.statusCode || '';
+			req._metrics_gatherer.labels.statusCode = res.statusCode
+				? String(res.statusCode)
+				: '';
 			for (const f of onFinishFuncs) {
 				f();
 			}
