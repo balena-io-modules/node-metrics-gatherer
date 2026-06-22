@@ -1,4 +1,22 @@
 - commits:
+    - subject: "Add id-token: write permission for NPM OIDC publishing"
+      hash: 3454c6f8060ee50cdefeabe32bd3feead8d12725
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: joshbwlng
+    - subject: Fix express typing extensions
+      hash: 721017863acd467d0247fde40c2b3f08c16fd21d
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: joshbwlng
+  version: 6.1.3
+  title: ""
+  date: 2026-06-22T12:33:58.616Z
+- commits:
     - subject: Include comments in the generated output to keep jsdoc intact
       hash: a2f651f1bcdd4b4078dc0e9c64d3fffc8843f581
       body: ""
