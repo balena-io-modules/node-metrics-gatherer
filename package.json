@@ -36,7 +36,7 @@
     "chai": "^4.3.6",
     "chai-http": "^4.3.0",
     "husky": "^9.1.7",
-    "lint-staged": "^16.2.4",
+    "lint-staged": "^17.0.8",
     "mocha": "^11.7.4",
     "ts-node": "^10.7.0",
     "typescript": "^5.9.3"
