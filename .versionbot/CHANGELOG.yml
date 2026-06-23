@@ -1,4 +1,22 @@
 - commits:
+    - subject: Update lint-staged to v17
+      hash: 5734dead303a8333f1ba2b14eb5eae0d27788486
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: joshbwlng
+    - subject: Rename .lintstagedrc to .lintstagedrc.json
+      hash: dd7c0d7b9bf0feb889f8bb03c3e52e55179dc394
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: joshbwlng
+  version: 6.1.4
+  title: ""
+  date: 2026-06-23T01:28:03.443Z
+- commits:
     - subject: "Add id-token: write permission for NPM OIDC publishing"
       hash: 3454c6f8060ee50cdefeabe32bd3feead8d12725
       body: ""
