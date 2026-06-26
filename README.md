@@ -24,26 +24,27 @@ metrics.gauge('temperature', 28);
 
 ### Exporting metrics (simple)
 
-Then, you need to make sure the metrics can be served when a request arrives, either on an existing express app, or creating a dedicated express app listening on a given port:
+Then, you need to make sure the metrics can be served when a request arrives.
+This library does not depend on express at runtime - instead it provides a
+request handler which you mount on your own express app (or a dedicated one you
+create just for metrics):
 
 ```
-// create a request handler to respond to prometheus pulls, given an
-// already-existing express app
+// create a request handler to respond to prometheus pulls, and mount it on
+// your express app
 app.use('/metrics', metrics.requestHandler());
 
-// OR, create our own app (using port 9337, arbitrarily)
-metrics.exportOn(9337, '/metrics');
+// OR, create a dedicated app just for metrics (using port 9337, arbitrarily)
+import express from 'express';
+express().use('/metrics', metrics.requestHandler()).listen(9337);
 ```
 
-Optionally, you can provide a function which validates whether the requeest should
+Optionally, you can provide a function which validates whether the request should
 be served or given a 403, by returning a boolean (an "authFunc"):
 
 ```
-const authFunc = (req) => req.get('Authorization') === 'Basic 123456');
+const authFunc = (req) => req.get('Authorization') === 'Basic 123456';
 app.use('/metrics', metrics.requestHandler(authFunc));
-
-// OR, if creating our own app (using port 9337, arbitrarily)
-metrics.exportOn(9337, '/metrics', metrics.requestHandler(authFunc));
 ```
 
 ## Exporting metrics (cluster)
@@ -59,7 +60,9 @@ if (cluster.isMaster) {
 	for (let i = 0; i < 4; i++) {
 		cluster.fork();
 	}
-	metrics.listenAndExport(9337, '/cluster_metrics', metrics.aggregateRequestHandler());
+	express()
+		.use('/cluster_metrics', metrics.aggregateRequestHandler())
+		.listen(9337);
 }
 ```
 

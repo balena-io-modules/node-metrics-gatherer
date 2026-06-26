@@ -1,4 +1,4 @@
-import express from 'express';
+import type express from 'express';
 import prometheus from 'prom-client';
 import { TypedError } from 'typed-error';
 
@@ -254,18 +254,6 @@ export class MetricsGatherer {
 		} catch (e) {
 			this.err(e);
 		}
-	}
-
-	// create an express app listening on a given port, responding with the given
-	// requesthandler
-	public exportOn(
-		port: number,
-		path = '/metrics',
-		requestHandler?: express.Handler,
-	) {
-		const app = express();
-		app.use(path, requestHandler ?? this.requestHandler());
-		app.listen(port);
 	}
 
 	// create an express request handler given an auth test function
