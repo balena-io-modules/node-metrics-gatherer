@@ -1,4 +1,18 @@
 - commits:
+    - subject: Remove express dependency
+      hash: d41f7e8ab7e41bab693db2dbaff45b2fef31d522
+      body: |
+        The library now requires the caller to use
+        their copy of express to make use of the
+        request handler this library provides.
+      footer:
+        Change-type: major
+        change-type: major
+      author: joshbwlng
+  version: 7.0.0
+  title: ""
+  date: 2026-06-26T07:36:31.336Z
+- commits:
     - subject: Update lint-staged to v17
       hash: 5734dead303a8333f1ba2b14eb5eae0d27788486
       body: ""

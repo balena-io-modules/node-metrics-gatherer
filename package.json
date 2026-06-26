@@ -1,6 +1,6 @@
 {
   "name": "@balena/node-metrics-gatherer",
-  "version": "6.1.4",
+  "version": "7.0.0",
   "description": "gather / export prometheus metrics easily in nodejs",
   "main": "out/index.js",
   "type": "commonjs",
@@ -45,6 +45,6 @@
     "typescript": "^5.9.3"
   },
   "versionist": {
-    "publishedAt": "2026-06-23T01:28:03.511Z"
+    "publishedAt": "2026-06-26T07:36:31.410Z"
   }
 }
