@@ -42,7 +42,7 @@
     "lint-staged": "17.0.8",
     "mocha": "11.7.6",
     "ts-node": "10.9.2",
-    "typescript": "5.9.3"
+    "typescript": "6.0.3"
   },
   "versionist": {
     "publishedAt": "2026-06-27T00:20:32.483Z"
