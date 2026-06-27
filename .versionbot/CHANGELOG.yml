@@ -1,4 +1,16 @@
 - commits:
+    - subject: Pin dependencies
+      hash: 6b6d451a8c60a0c7a413672ec117276731374233
+      body: |
+        Update @types/chai
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+  version: 7.0.1
+  title: ""
+  date: 2026-06-27T00:20:32.400Z
+- commits:
     - subject: Remove express dependency
       hash: d41f7e8ab7e41bab693db2dbaff45b2fef31d522
       body: |
