@@ -1,4 +1,15 @@
 - commits:
+    - subject: Update typescript to v6
+      hash: 8cd5d6fd9ee1db6d3e849941d9093c9242a1e129
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: joshbwlng
+  version: 7.0.2
+  title: ""
+  date: 2026-07-01T23:58:53.406Z
+- commits:
     - subject: Pin dependencies
       hash: 6b6d451a8c60a0c7a413672ec117276731374233
       body: |
