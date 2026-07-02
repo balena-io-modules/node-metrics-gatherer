@@ -35,7 +35,7 @@
     "@types/chai-http": "4.2.4",
     "@types/express": "5.0.6",
     "@types/mocha": "10.0.10",
-    "chai": "4.5.0",
+    "chai": "6.2.2",
     "chai-http": "4.4.0",
     "express": "5.2.1",
     "husky": "9.1.7",
