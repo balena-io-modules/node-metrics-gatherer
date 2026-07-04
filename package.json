@@ -36,7 +36,7 @@
     "@types/express": "5.0.6",
     "@types/mocha": "10.0.10",
     "chai": "4.5.0",
-    "chai-http": "4.4.0",
+    "chai-http": "5.1.2",
     "express": "5.2.1",
     "husky": "9.1.7",
     "lint-staged": "17.0.8",
