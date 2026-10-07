@@ -1,5 +1,5 @@
 export { MetricsGathererError } from './metrics-gatherer.ts';
 
 import { MetricsGatherer } from './metrics-gatherer.ts';
-export { MetricsGatherer };
+export type { MetricsGatherer };
 export const metrics = new MetricsGatherer();
