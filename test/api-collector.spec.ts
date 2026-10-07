@@ -5,7 +5,6 @@ import { expect } from 'chai';
 import chaiHttp = require('chai-http');
 import 'mocha';
 
-import { json } from 'body-parser';
 import express from 'express';
 
 import { metrics } from '../src';
@@ -15,7 +14,7 @@ chai.use(chaiHttp);
 describe('API metrics', () => {
 	const app = metrics.collectAPIMetrics(express());
 	app
-		.use(json())
+		.use(express.json())
 		.post('/echo', (req: express.Request, res: express.Response) => {
 			res.send(req.body);
 		});
