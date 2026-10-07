@@ -1,4 +1,15 @@
 - commits:
+    - subject: Remove `@types/chai-http` as `chai-http` already includes types
+      hash: c433bb2531a27438e9ae86a46191f63e2dc6097a
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 7.0.4
+  title: ""
+  date: 2026-10-07T13:48:07.817Z
+- commits:
     - subject: Use the json parser exposed by express rather than relying on an
         undeclared dependency
       hash: 0beb1aa82ef3df21820591e603e8282d196a221f
