@@ -1,6 +1,5 @@
 import type express from 'express';
 import prometheus from '@prometheus-io/client';
-import { TypedError } from 'typed-error';
 
 import Debug from 'debug';
 const debug = Debug('node-metrics-gatherer');
@@ -16,7 +15,7 @@ import type {
 	MetricsMetaMap,
 } from './types.ts';
 
-export class MetricsGathererError extends TypedError {}
+export class MetricsGathererError extends Error {}
 
 const constructors = {
 	gauge: prometheus.Gauge,
