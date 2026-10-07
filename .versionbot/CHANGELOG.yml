@@ -1,4 +1,46 @@
 - commits:
+    - subject: Remove typed-error dependency
+      hash: a069dd18c21300dbb5b2e775d237ad470e2ddea9
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+      author: Pagan Gazzard
+    - subject: Change `MetricsGatherer` to a type-only export, use the `metrics`
+        singleton
+      hash: a8d4b31c5c4315a64cf891ec240a152014a46e6d
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+      author: Pagan Gazzard
+    - subject: Convert to ESM
+      hash: 48772f9ee5267aad67ff36c8c0b8c835c4741daa
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+      author: Pagan Gazzard
+    - subject: Switch from deprecated `prom-client` to `@prometheus-io/client`
+      hash: 59419b72598a4afd05cee3216d2b95031e9f1286
+      body: |
+        The repo was transferred and the module renamed but is otherwise a
+        direct successor
+      footer:
+        Change-type: major
+        change-type: major
+      author: Pagan Gazzard
+    - subject: Set minimum support nodejs version to 24.x
+      hash: 280a51722d407b2fc1c11c04fa3bbdf4ace4d1e3
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+      author: Pagan Gazzard
+  version: 8.0.0
+  title: ""
+  date: 2026-10-07T15:55:15.467Z
+- commits:
     - subject: Fix described metric name to match the one we use for collection of
         `api_latency_milliseconds`
       hash: 4639cfa935d06c41881dee25b4b3e2029b43665f
