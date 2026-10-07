@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix described metric name to match the one we use for collection of
+        `api_latency_milliseconds`
+      hash: 4639cfa935d06c41881dee25b4b3e2029b43665f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 7.0.6
+  title: ""
+  date: 2026-10-07T14:47:57.021Z
+- commits:
     - subject: Remove unnecessary `MetricConstructor` wrapper class
       hash: 434ca13734a34e9d1e9c79e87179802b0c463c94
       body: ""
