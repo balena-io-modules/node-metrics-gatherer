@@ -1,4 +1,4 @@
-import { exponentialBuckets } from 'prom-client';
+import { exponentialBuckets } from '@prometheus-io/client';
 
 // from 4 ms up to ~65 seconds, sqrt2 factor
 // allows specification via env-var as comma-separated values

@@ -1,7 +1,7 @@
 import type express from 'express';
-import type prometheus from 'prom-client';
+import type prometheus from '@prometheus-io/client';
 
-import type { AggregatorStrategy } from './enums';
+import type { Aggregator } from '@prometheus-io/client';
 
 export interface LabelSet {
 	[name: string]: string;
@@ -11,7 +11,7 @@ export interface CustomParams {
 	percentiles?: number[];
 	buckets?: number[];
 	labelNames?: string[];
-	aggregator?: AggregatorStrategy;
+	aggregator?: Aggregator;
 }
 
 export interface MetricsMap<T extends string = string> {

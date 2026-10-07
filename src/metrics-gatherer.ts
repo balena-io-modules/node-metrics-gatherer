@@ -1,11 +1,10 @@
 import type express from 'express';
-import prometheus from 'prom-client';
-import { TypedError } from 'typed-error';
+import prometheus from '@prometheus-io/client';
 
 import Debug from 'debug';
 const debug = Debug('node-metrics-gatherer');
 
-import { collectAPIMetrics } from './collectors/api/collect';
+import { collectAPIMetrics } from './collectors/api/collect.ts';
 
 import type {
 	AuthTestFunc,
@@ -14,9 +13,9 @@ import type {
 	LabelSet,
 	MetricsMap,
 	MetricsMetaMap,
-} from './types';
+} from './types.ts';
 
-export class MetricsGathererError extends TypedError {}
+export class MetricsGathererError extends Error {}
 
 const constructors = {
 	gauge: prometheus.Gauge,
@@ -272,7 +271,7 @@ export class MetricsGatherer {
 	 * Note: This *must* be paired with an `aggregateRequestWorker()` call on all workers
 	 */
 	public aggregateRequestHandler(authTest?: AuthTestFunc): express.Handler {
-		const aggregatorRegistry = new prometheus.AggregatorRegistry();
+		const aggregatorRegistry = new prometheus.ClusterRegistry();
 		return async (req, res) => {
 			if (authTest && !authTest(req)) {
 				return res.status(403).send();
@@ -290,10 +289,10 @@ export class MetricsGatherer {
 	public aggregateRequestWorker(): void {
 		// Ensure the worker listener is registered by instantiating the class
 		// tslint:disable-next-line:no-unused-expression-chai
-		new prometheus.AggregatorRegistry();
+		new prometheus.ClusterRegistry();
 	}
 
-	// collect default metrics (underlying prom-client)
+	// collect default metrics (underlying @prometheus-io/client)
 	public collectDefaultMetrics() {
 		prometheus.collectDefaultMetrics();
 	}

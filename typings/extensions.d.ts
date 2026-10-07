@@ -1,4 +1,4 @@
-import type { LabelSet } from '../src/types';
+import type { LabelSet } from '../src/types.ts';
 
 declare global {
 	/* tslint:disable-next-line:no-namespace */

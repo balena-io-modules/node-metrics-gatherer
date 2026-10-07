@@ -1,8 +1,8 @@
 import type { NextFunction, Request, Response } from 'express';
 import onFinished from 'on-finished';
 
-import type { MetricsGatherer } from '../../metrics-gatherer';
-import { describeAPIMetricsOnce } from './describe';
+import type { MetricsGatherer } from '../../metrics-gatherer.ts';
+import { describeAPIMetricsOnce } from './describe.ts';
 
 export const collectAPIMetrics = (
 	metrics: MetricsGatherer,
