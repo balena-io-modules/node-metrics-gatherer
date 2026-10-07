@@ -49,7 +49,7 @@ export const describeAPIMetricsOnce = (metrics: MetricsGatherer) => {
 	);
 
 	metrics.describe.histogram(
-		'api_latency_seconds',
+		'api_latency_milliseconds',
 		'histogram of time spent to process a request from arrival to completion',
 		{
 			buckets: latencyBuckets,
