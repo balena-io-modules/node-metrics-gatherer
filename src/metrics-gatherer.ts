@@ -1,5 +1,5 @@
 import type express from 'express';
-import prometheus from 'prom-client';
+import prometheus from '@prometheus-io/client';
 import { TypedError } from 'typed-error';
 
 import Debug from 'debug';
@@ -272,7 +272,7 @@ export class MetricsGatherer {
 	 * Note: This *must* be paired with an `aggregateRequestWorker()` call on all workers
 	 */
 	public aggregateRequestHandler(authTest?: AuthTestFunc): express.Handler {
-		const aggregatorRegistry = new prometheus.AggregatorRegistry();
+		const aggregatorRegistry = new prometheus.ClusterRegistry();
 		return async (req, res) => {
 			if (authTest && !authTest(req)) {
 				return res.status(403).send();
@@ -290,10 +290,10 @@ export class MetricsGatherer {
 	public aggregateRequestWorker(): void {
 		// Ensure the worker listener is registered by instantiating the class
 		// tslint:disable-next-line:no-unused-expression-chai
-		new prometheus.AggregatorRegistry();
+		new prometheus.ClusterRegistry();
 	}
 
-	// collect default metrics (underlying prom-client)
+	// collect default metrics (underlying @prometheus-io/client)
 	public collectDefaultMetrics() {
 		prometheus.collectDefaultMetrics();
 	}

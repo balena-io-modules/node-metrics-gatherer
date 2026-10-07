@@ -5,7 +5,7 @@ import { bytesRWBuckets, latencyBuckets } from '../../config';
 // some or none of these labels may be actually used in the calls to observe
 // metrics data points, but we need to specify them all up-front so that
 // they don't appear by "surprise" to the prometheus client library, which will
-// cause a thrown error. See: https://github.com/siimon/prom-client/issues/298
+// cause a thrown error. See: https://github.com/prometheus/client_js/issues/298
 const commonLabels = [
 	'queueName',
 	'userAgent',

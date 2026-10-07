@@ -49,20 +49,24 @@ app.use('/metrics', metrics.requestHandler(authFunc));
 
 ## Exporting metrics (cluster)
 
-If an application forks several child workers and they each listen on `:80/metrics`, each worker will have a random chance of being hit, only exporting their own metrics each time, causing instability and confusion. Thankfully, [`prom-client`](https://github.com/siimon/prom-client/) provides a way to handle this, with a registry you create just after you fork. Internally, it handles message-passing between the workers and the main process, where the metrics are aggregated. The `examples/` folder in that repo has (as of this writing) an example. This requires a separate express app to be created, listening on a port which isn't participating in the worker cluster pooling.
+If an application forks several child workers and they each listen on `:80/metrics`, each worker will have a random chance of being hit, only exporting their own metrics each time, causing instability and confusion. Thankfully, [`@prometheus-io/client`](https://github.com/prometheus/client_js) provides a way to handle this, with a registry you create just after you fork. Internally, it handles message-passing between the workers and the main process, where the metrics are aggregated. The `example/` folder in that repo has (as of this writing) an example. This requires a separate express app to be created, listening on a port which isn't participating in the worker cluster pooling.
+
+Each worker must opt in to aggregation by calling `metrics.aggregateRequestWorker()`, otherwise the primary will not be able to collect its metrics and the aggregate request will time out. Any metrics recorded in the primary process itself are included in the aggregated output as well.
 
 See below an example usage:
 
 (port 9337 chosen arbitrarily)
 
 ```
-if (cluster.isMaster) {
+if (cluster.isPrimary) {
 	for (let i = 0; i < 4; i++) {
 		cluster.fork();
 	}
 	express()
 		.use('/cluster_metrics', metrics.aggregateRequestHandler())
 		.listen(9337);
+} else {
+	metrics.aggregateRequestWorker();
 }
 ```
 
@@ -218,7 +222,7 @@ metrics.describe.summary(
 
 ### Clustered aggregation strategy
 
-There are several aggregation strategies which `prom-client`'s `AggregatorRegistry`
+There are several aggregation strategies which `@prometheus-io/client`'s `ClusterRegistry`
 can use to combine the metrics recorded by `cluster` workers. They are:
 
 - sum
@@ -228,7 +232,7 @@ can use to combine the metrics recorded by `cluster` workers. They are:
 - average
 - omit
 
-(You can see how they work in the source of [`prom-client/lib/metricAggregators.js`](https://github.com/siimon/prom-client/blob/master/lib/metricAggregators.js))
+(You can see how they work in the source of [`@prometheus-io/client/lib/metricAggregators.js`](https://github.com/prometheus/client_js/blob/master/lib/metricAggregators.js))
 
 In order to control the aggregation strategy (which defaults to 'sum' if unspecified)
 for a given metric, you can supply an `aggregator` property to `describe()` which
