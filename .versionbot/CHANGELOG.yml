@@ -1,4 +1,15 @@
 - commits:
+    - subject: Remove unnecessary `MetricConstructor` wrapper class
+      hash: 434ca13734a34e9d1e9c79e87179802b0c463c94
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 7.0.5
+  title: ""
+  date: 2026-10-07T14:27:37.742Z
+- commits:
     - subject: Remove `@types/chai-http` as `chai-http` already includes types
       hash: c433bb2531a27438e9ae86a46191f63e2dc6097a
       body: ""
