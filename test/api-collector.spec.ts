@@ -1,13 +1,12 @@
 // TODO
 import chai from 'chai';
 import { expect } from 'chai';
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-import chaiHttp = require('chai-http');
+import chaiHttp from 'chai-http';
 import 'mocha';
 
 import express from 'express';
 
-import { metrics } from '../src';
+import { metrics } from '../src/index.ts';
 
 chai.use(chaiHttp);
 

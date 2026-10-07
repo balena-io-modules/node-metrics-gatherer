@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import 'mocha';
 
-import { metrics } from '../src';
+import { metrics } from '../src/index.ts';
 
 describe('MetricsGatherer', () => {
 	beforeEach(() => {

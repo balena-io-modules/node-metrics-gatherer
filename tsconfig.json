@@ -9,7 +9,9 @@
 		"strictPropertyInitialization": false,
 		"noUnusedParameters": true,
 		"noUnusedLocals": true,
-		"preserveConstEnums": true,
+		"erasableSyntaxOnly": true,
+		"verbatimModuleSyntax": true,
+		"rewriteRelativeImportExtensions": true,
 		"resolveJsonModule": true,
 		"sourceMap": true,
 		"skipLibCheck": true

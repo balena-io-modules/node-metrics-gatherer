@@ -1,6 +1,6 @@
-import type { MetricsGatherer } from '../../metrics-gatherer';
+import type { MetricsGatherer } from '../../metrics-gatherer.ts';
 
-import { bytesRWBuckets, latencyBuckets } from '../../config';
+import { bytesRWBuckets, latencyBuckets } from '../../config.ts';
 
 // some or none of these labels may be actually used in the calls to observe
 // metrics data points, but we need to specify them all up-front so that

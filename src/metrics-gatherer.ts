@@ -5,7 +5,7 @@ import { TypedError } from 'typed-error';
 import Debug from 'debug';
 const debug = Debug('node-metrics-gatherer');
 
-import { collectAPIMetrics } from './collectors/api/collect';
+import { collectAPIMetrics } from './collectors/api/collect.ts';
 
 import type {
 	AuthTestFunc,
@@ -14,7 +14,7 @@ import type {
 	LabelSet,
 	MetricsMap,
 	MetricsMetaMap,
-} from './types';
+} from './types.ts';
 
 export class MetricsGathererError extends TypedError {}
 
