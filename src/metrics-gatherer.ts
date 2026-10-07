@@ -15,15 +15,14 @@ import type {
 	MetricsMap,
 	MetricsMetaMap,
 } from './types';
-import { MetricConstructor } from './types';
 
 export class MetricsGathererError extends TypedError {}
 
 const constructors = {
-	gauge: new MetricConstructor(prometheus.Gauge),
-	counter: new MetricConstructor(prometheus.Counter),
-	summary: new MetricConstructor(prometheus.Summary),
-	histogram: new MetricConstructor(prometheus.Histogram),
+	gauge: prometheus.Gauge,
+	counter: prometheus.Counter,
+	summary: prometheus.Summary,
+	histogram: prometheus.Histogram,
 };
 
 interface Describer {
@@ -231,7 +230,7 @@ export class MetricsGatherer {
 			);
 		}
 		// create prometheus.Metric instance
-		this.metrics[kind][name] = constructors[kind].create({
+		this.metrics[kind][name] = new constructors[kind]({
 			name,
 			help: this.meta[name].help,
 			labelNames: Object.keys(labels),
