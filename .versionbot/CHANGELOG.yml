@@ -1,4 +1,16 @@
 - commits:
+    - subject: Use the json parser exposed by express rather than relying on an
+        undeclared dependency
+      hash: 0beb1aa82ef3df21820591e603e8282d196a221f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 7.0.3
+  title: ""
+  date: 2026-10-07T13:43:26.085Z
+- commits:
     - subject: Update typescript to v6
       hash: 8cd5d6fd9ee1db6d3e849941d9093c9242a1e129
       body: ""
