@@ -36,6 +36,7 @@ export class MetricsGatherer {
 	public internalErrorCount: number;
 	public meta: MetricsMetaMap;
 	private metrics: MetricsMap;
+	private defaultMetricsCollected: boolean;
 	public describe: Describer;
 	public client = prometheus;
 
@@ -54,6 +55,8 @@ export class MetricsGatherer {
 			};
 			this.meta = {};
 			this.internalErrorCount = 0;
+			// `clear()` unregisters the default metrics, so they can be collected again
+			this.defaultMetricsCollected = false;
 		} catch (e) {
 			this.err(e);
 		}
@@ -292,9 +295,18 @@ export class MetricsGatherer {
 		new prometheus.ClusterRegistry();
 	}
 
-	// collect default metrics (underlying @prometheus-io/client)
+	// collect default metrics (underlying @prometheus-io/client), only
+	// registering them once, as registering them again throws
 	public collectDefaultMetrics() {
-		prometheus.collectDefaultMetrics();
+		if (this.defaultMetricsCollected) {
+			return;
+		}
+		try {
+			prometheus.collectDefaultMetrics();
+			this.defaultMetricsCollected = true;
+		} catch (e) {
+			this.err(e);
+		}
 	}
 
 	// collect generic API metrics given an express app
