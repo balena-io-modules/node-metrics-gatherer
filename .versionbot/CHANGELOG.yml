@@ -1,4 +1,21 @@
 - commits:
+    - subject: Make `collectDefaultMetrics()` safe to call more than once
+      hash: 784b374cfa4c16937e6a5d81435132bd1f749eee
+      body: |
+        A second call threw "A metric with the name ... has already been
+        registered" straight to the caller, as this was the only public method
+        without the usual error handling.
+
+        Only register the default metrics once, until `clear()` deregisters
+        them, and count any registration error as an internal error.
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 8.0.2
+  title: ""
+  date: 2026-10-14T23:59:47.016Z
+- commits:
     - subject: Fix API latency buckets being in seconds instead of milliseconds
       hash: 9c09494c06ba8938e8ec9c87c0ff28176428044c
       body: ""
