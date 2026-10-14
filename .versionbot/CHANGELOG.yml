@@ -1,4 +1,15 @@
 - commits:
+    - subject: Fix API latency buckets being in seconds instead of milliseconds
+      hash: 9c09494c06ba8938e8ec9c87c0ff28176428044c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 8.0.1
+  title: ""
+  date: 2026-10-14T22:49:52.764Z
+- commits:
     - subject: Remove typed-error dependency
       hash: a069dd18c21300dbb5b2e775d237ad470e2ddea9
       body: ""
