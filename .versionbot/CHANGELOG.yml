@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update dependency flowzonify to v0.4.19
+      hash: e4eed5994b40bee472a1c44b67beba8548403331
+      body: |
+        Update flowzonify from 0.0.0 to 0.4.19
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+  version: 8.0.3
+  title: ""
+  date: 2026-10-16T01:20:14.160Z
+- commits:
     - subject: Make `collectDefaultMetrics()` safe to call more than once
       hash: 784b374cfa4c16937e6a5d81435132bd1f749eee
       body: |
