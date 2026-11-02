@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update dependency @balena/lint to v11
+      hash: 6a2c09a69c3badd5d5ecdf6b5d04fab3a9dd8f3e
+      body: |
+        Update @balena/lint from 9.4.15 to 11.0.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: balena-renovate[bot]
+  version: 8.0.4
+  title: ""
+  date: 2026-11-02T23:19:11.147Z
+- commits:
     - subject: Update dependency flowzonify to v0.4.19
       hash: e4eed5994b40bee472a1c44b67beba8548403331
       body: |
