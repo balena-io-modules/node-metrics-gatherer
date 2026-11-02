@@ -38,7 +38,7 @@
     "@types/express": "^4.17.21 || ^5.0.0"
   },
   "devDependencies": {
-    "@balena/lint": "^9.3.8",
+    "@balena/lint": "^11.0.0",
     "@types/chai": "4.3.20",
     "@types/express": "5.0.6",
     "@types/mocha": "10.0.10",
